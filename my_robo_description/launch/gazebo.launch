@@ -1,0 +1,21 @@
+<launch>
+  <arg name="model" default="$(find my_robo_description)/my_robo.urdf"/>
+   
+  <arg name="paused" default="false"/>
+  <arg name="use_sim_time" default="true"/>
+  <arg name="gui" default="true"/>
+  <arg name="headless" default="false"/>
+  <arg name="debug" default="false"/>
+   
+  <include file="$(find my_robo_description)/launch/willow.launch">
+  </include>
+ 
+  <param name="robot_description" command="$(find xacro)/xacro.py $(arg model)"/>
+   
+  <include file="$(find my_robo_description)/launch/control.launch"/>
+   
+  <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
+    args="-urdf -model my_robo -param robot_description"/>
+ 
+ 
+</launch>
