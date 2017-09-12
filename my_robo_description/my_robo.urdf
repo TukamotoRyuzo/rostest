@@ -2,8 +2,8 @@
 <robot name="my_robo" >
   <property name="M_PI" value="3.14159274"/>
 
+  <!-- define robot shape -->
   <link name="base_link">
- 
     <visual>
       <geometry>
         <box size="0.400 0.400 1.200"/>
@@ -149,6 +149,7 @@
     <child link="hokuyo_link"/>
   </joint>
  
+  <!-- The transmission element is used to describe the relationship between an actuator and a joint. -->
   <transmission name="left_wheel_trans">
     <type>transmission_interface/SimpleTransmission</type>
     <joint name="left_wheel_joint">
