@@ -16,7 +16,8 @@ my_robo:
     # Wheel separation and diameter. These are both optional.
     # diff_drive_controller will attempt to read either one or both from the
     # URDF if not specified as a parameter
-    # (If controller trying to read from a URDF file, I don't need to define values here?)
+    # (If controller trying to read from a URDF file, we don't need to define values here?)
+    # (but comment out this, navigation does not work.)
     wheel_separation : 0.46
     wheel_radius : 0.15
  
