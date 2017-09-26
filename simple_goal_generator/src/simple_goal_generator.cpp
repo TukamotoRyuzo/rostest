@@ -32,7 +32,8 @@ void tableNumberCallback(const std_msgs::Int8::ConstPtr& msg)
         ROS_INFO("subscribed number is out of range! (0 <= data < 10)");
         return;
     }
-          
+     
+    // 今は実験用に[9]を充電スポットとしている。
     geometry_msgs::Pose p[10] = 
     {
         makePose(1, 0, 0, 0, 0, 1, 1),

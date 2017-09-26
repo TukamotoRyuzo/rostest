@@ -18,7 +18,12 @@ include_directories(
 )
 
 add_executable(simple_goal_generator_node src/simple_goal_generator.cpp)
+add_executable(monitor_battery_node src/monitor_battery.cpp)
 
 target_link_libraries(simple_goal_generator_node
+  ${catkin_LIBRARIES}
+)
+
+target_link_libraries(monitor_battery_node
   ${catkin_LIBRARIES}
 )

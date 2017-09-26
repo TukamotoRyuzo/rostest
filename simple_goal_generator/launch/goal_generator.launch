@@ -1,0 +1,4 @@
+<launch>
+    <node pkg="simple_goal_generator" name="simple_goal_generator" type="simple_goal_generator_node" output="screen"/>
+    <node pkg="simple_goal_generator" name="monitor_battery" type="monitor_battery_node" output="screen"/>
+</launch>
