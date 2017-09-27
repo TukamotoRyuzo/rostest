@@ -1,18 +1,23 @@
 <?xml version="1.0"?>
 <robot name="my_robo" >
   <property name="M_PI" value="3.14159274"/>
-
+  <property name="link_width"  value="0.400"/>
+  <property name="link_height" value="1.200"/>
+  <property name="link_depth"  value="0.400"/>
+  <property name="wheel_radius" value="0.15"/>
+  <property name="wheel_length" value="0.05"/>
+  
   <!-- define robot shape -->
   <link name="base_link">
     <visual>
       <geometry>
-        <box size="0.400 0.400 1.200"/>
+        <box size="${link_width} ${link_depth} ${link_height}"/>
       </geometry>
     </visual>
  
     <collision>
       <geometry>
-        <box size="0.400 0.400 1.200"/>
+        <box size="${link_width} ${link_depth} ${link_height}"/>
       </geometry>
     </collision>
  
@@ -26,7 +31,7 @@
   <link name="left_wheel_link">
     <visual>
       <geometry>
-        <cylinder radius="0.15" length="0.05"/>
+        <cylinder radius="${wheel_radius}" length="${wheel_length}"/>
       </geometry>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <material name="black"/>
@@ -34,7 +39,7 @@
  
     <collision>
       <geometry>
-        <cylinder radius="0.15" length="0.05"/>
+        <cylinder radius="${wheel_radius}" length="${wheel_length}"/>
       </geometry>
     </collision>
  
@@ -56,7 +61,7 @@
   <link name="right_wheel_link">
     <visual>
       <geometry>
-        <cylinder radius="0.15" length="0.05"/>
+        <cylinder radius="${wheel_radius}" length="${wheel_length}"/>
       </geometry>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <material name="black"/>
@@ -64,7 +69,7 @@
  
     <collision>
       <geometry>
-        <cylinder radius="0.15" length="0.05"/>
+        <cylinder radius="${wheel_radius}" length="${wheel_length}"/>
       </geometry>
     </collision>
  
