@@ -14,7 +14,7 @@
   <param name="robot_description" command="$(find xacro)/xacro.py $(arg model)"/>
    
   #control.yamlファイル中身をパラメータに登録する
-  <include file="$(find my_robo_description)/launch/control.launch"/>
+  <include file="$(find my_robo_control)/launch/control_sim.launch"/>
    
   #ロボットモデルをgazeboに召喚する
   <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
