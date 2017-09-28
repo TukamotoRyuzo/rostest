@@ -5,5 +5,5 @@ navigationを実機とシミュレータで行えるようにすることが目�
 roslaunch my_robo_description gazebo.launch  
 roslaunch my_robo_2dnav move_base.launch  
 rosrun rviz rviz  
-　　
+
 実機でのnavigationはまだできません。
