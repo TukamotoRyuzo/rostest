@@ -41,6 +41,7 @@
     <param name="recovery_alpha_fast" value="0.0"/>
   </node>
  
+  #move_baseはcmd_velトピックを出すが、diff_drive_controller用に/my_robo/diff_drive_controller/cmd_velという名前のトピックに変更している
   <!--- Run Move Base -->
   <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen" args="/cmd_vel:=/my_robo/diff_drive_controller/cmd_vel">
     <rosparam file="$(find my_robo_2dnav)/costmap_common_params.yaml" command="load" ns="global_costmap" />
