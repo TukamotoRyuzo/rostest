@@ -1,6 +1,5 @@
-#実機用
 <launch>
-  <include file="$(find my_robo_control)/launch/control.launch"/>
+  <include file="$(find my_robo_control)/launch/control_sim.launch"/>
   <node name="my_robo_control" pkg="my_robo_control" type="my_robo_control" 
         output="screen" ns="/my_robo"/>
 </launch>

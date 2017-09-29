@@ -1,6 +1,8 @@
 <launch>
   <master auto="start"/>
- 
+  <arg name="laser" default="/rrbot/laser/scan"/>
+  <arg name="cmd_vel" default="my_robo/diff_drive_controller/cmd_vel"/>
+  
   <!-- Run the map server -->
   #マップサーバを開始する
   <arg name="map_file" default="$(find my_robo_2dnav)/map/map.yaml"/>
@@ -9,7 +11,7 @@
   #AMCLを開始する
   <!--- Run AMCL -->
   <!--<include file="$(find amcl)/examples/amcl_diff.launch" />-->
-  <node pkg="amcl" type="amcl" name="amcl" output="screen" args="/scan:=/rrbot/laser/scan">
+  <node pkg="amcl" type="amcl" name="amcl" output="screen" args="/scan:=$(arg laser)">
     <!-- Publish scans from best pose at a max of 10 Hz -->
     <param name="odom_model_type" value="diff"/>
     <param name="transform_tolerance" value="0.2" />
@@ -43,7 +45,7 @@
  
   #move_baseはcmd_velトピックを出すが、diff_drive_controller用に/my_robo/diff_drive_controller/cmd_velという名前のトピックに変更している
   <!--- Run Move Base -->
-  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen" args="/cmd_vel:=/my_robo/diff_drive_controller/cmd_vel">
+  <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen" args="/cmd_vel:=$(arg cmd_vel)">
     <rosparam file="$(find my_robo_2dnav)/costmap_common_params.yaml" command="load" ns="global_costmap" />
     <rosparam file="$(find my_robo_2dnav)/costmap_common_params.yaml" command="load" ns="local_costmap" />
     <rosparam file="$(find my_robo_2dnav)/local_costmap_params.yaml" command="load" />
