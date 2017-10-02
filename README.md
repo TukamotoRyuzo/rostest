@@ -31,3 +31,5 @@ rosrun rviz rviz
   `actionlib`を利用してゴール座標を`navigation`に送る。
   また、バッテリー残量を監視し、必要に応じて充電場所座標を`navigation`に送る。
 
+* udev  
+  `udev`を用いてUSBデバイスの番号を固定するためのもの。udev/copy.shを実行すれば良い。

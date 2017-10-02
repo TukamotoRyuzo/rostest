@@ -1,0 +1,4 @@
+# ttyACM0: Arduino, ttyACM1: LRF
+KERNEL=="ttyACM*  SUBSYSTEMS=="usb" ATTRS{idVendor}=="2a03" ATTRS{idProduct}=="0043" NAME="ttyACM0" MODE="0777"
+
+KERNEL=="ttyACM[0-9]*", ACTION=="add", ATTRS{idVendor}=="15d1", MODE="0777", GROUP="dialout", PROGRAM="/opt/ros/kinetic/env.sh rosrun urg_node getID %N q", SYMLINK+="sensors/urg_%c"
