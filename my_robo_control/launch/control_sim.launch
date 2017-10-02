@@ -1,5 +1,9 @@
 <launch>
- 
+  <arg name="model" default="$(find my_robo_description)/my_robo.urdf"/>
+  
+  #urdfファイルの中身をパラメータに登録する
+  <param name="robot_description" command="$(find xacro)/xacro.py $(arg model)"/>
+   
   <!-- Load joint controller configurations from YAML file to parameter server -->
   #joint controller定義をパラメータに登録する
   <rosparam file="$(find my_robo_control)/config/controller.yaml" command="load"/>

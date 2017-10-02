@@ -1,0 +1,9 @@
+<launch>
+	<node pkg="urg_node" type="urg_node" name="urg_node" output="screen">
+		<param name="serial_port" value="/dev/ttyACM2"/>
+    </node>
+    
+    <!-- launch ypspur_ros -->
+    <!-- You can adjust the pose of laser-rangefinder here. Order of values: x y z yaw pitch roll. -->
+  	<node pkg="tf" type="static_transform_publisher" name="laser_transform" args="$(optenv laserpos 0.2 0 0 0 0 0) base_link laser 100" />
+</launch>

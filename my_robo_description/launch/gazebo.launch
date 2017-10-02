@@ -1,5 +1,4 @@
 <launch>
-  <arg name="model" default="$(find my_robo_description)/my_robo.urdf"/>
   <arg name="paused" default="false"/>
   <arg name="use_sim_time" default="true"/>
   <arg name="gui" default="true"/>
@@ -10,9 +9,6 @@
   <include file="$(find my_robo_description)/launch/willow.launch">
   </include>
  
-  #urdfファイルの中身をパラメータに登録する
-  <param name="robot_description" command="$(find xacro)/xacro.py $(arg model)"/>
-   
   #control.yamlファイル中身をパラメータに登録する
   <include file="$(find my_robo_control)/launch/control_sim.launch"/>
    
