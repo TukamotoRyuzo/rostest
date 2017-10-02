@@ -1,11 +1,3 @@
-# ttyACM0: Arduino
-#KERNEL=="ttyACM*  SUBSYSTEMS=="usb" ATTRS{idVendor}=="2a03" ATTRS{idProduct}=="0043" NAME="ttyACM0" MODE="0777"
 SUBSYSTEM=="tty", ATTRS{idVendor}=="2a03", SYMLINK+="Arduino", MODE="0666"
-
-# ttyACM1: yp-spur
 SUBSYSTEM=="tty", ATTRS{idVendor}=="03eb", SYMLINK+="ypspur", MODE="0666"
-
-# ttyACM2: LRF
 SUBSYSTEM=="tty", ATTRS{idVendor}=="15d1", SYMLINK+="LRF", MODE="0666"
-
-#KERNEL=="ttyACM[0-9]*", ACTION=="add", ATTRS{idVendor}=="15d1", MODE="0777", GROUP="dialout", PROGRAM="/opt/ros/kinetic/env.sh rosrun urg_node getID %N q", SYMLINK+="sensors/urg_%c"
