@@ -1,6 +1,6 @@
 <launch>
 	<node pkg="urg_node" type="urg_node" name="urg_node" output="screen">
-		<param name="serial_port" value="/dev/ttyACM2"/>
+		<param name="serial_port" value="/dev/LRF"/>
     </node>
     
     <!-- launch ypspur_ros -->
