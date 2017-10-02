@@ -11,3 +11,23 @@ rosrun rviz rviz
 
 実機でのnavigationはまだできません。  
 
+## 構成
+
+* my_robo_2dnav
+  `navigation`の起動ファイルとコストマップ用のパラメータファイル。
+
+* my_robo_control
+  コントローラのパラメータファイルとコントローラの起動ファイル。`diff_drive_controller`とか。
+  あとは実機での動作に必要と思われる`RobotHW`の起動ノード。
+  `RobotHW`の使い方がまだわからない。
+  
+* my_robo_description
+  ロボットの形状、位置関係定義。`urdf`と、`gazebo`シミュレータの起動ファイル。
+  
+* robot_launcher
+  将来的にはここにある起動ファイルですべての動作を行えるようにする。
+  
+* simple_goal_generator
+  `actionlib`を利用してゴール座標を`navigation`に送る。
+  また、バッテリー残量を監視し、必要に応じて充電場所座標を`navigation`に送る。
+
