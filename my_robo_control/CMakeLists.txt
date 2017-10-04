@@ -1,11 +1,9 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(my_robo_control)
-
 find_package(catkin REQUIRED COMPONENTS
   controller_manager
   hardware_interface
   roscpp
-  transmission_interface
 )
 
 catkin_package(
@@ -15,14 +13,26 @@ catkin_package(
 #  DEPENDS system_lib
 )
 
+find_path(ypspur_INCLUDE_DIRS ypspur.h
+  HINTS /usr/local/include/ /usr/include/ /opt/local/include)
+
+find_path(ypspur_LIB_DIR libypspur.so
+  HINTS /usr/local/lib /usr/lib /opt/local/lib)
+
+find_library(ypspur_LIBRARIES ypspur
+  HINTS /usr/local/lib /usr/lib /opt/local/lib)
+
 include_directories(
   include
   ${catkin_INCLUDE_DIRS}
+  ${YPSPUR_INCLUDE_DIRS}
 )
+
 add_executable(my_robo_control src/my_robo_control.cpp src/my_robo_hw.cpp)
 
 target_link_libraries(my_robo_control
   ${catkin_LIBRARIES}
+  ${ypspur_LIBRARIES}
 )
 
 install(TARGETS my_robo_control
