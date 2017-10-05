@@ -25,7 +25,6 @@ find_library(ypspur_LIBRARIES ypspur
 include_directories(
   include
   ${catkin_INCLUDE_DIRS}
-  ${YPSPUR_INCLUDE_DIRS}
 )
 
 add_executable(my_robo_control src/my_robo_control.cpp src/my_robo_hw.cpp)
