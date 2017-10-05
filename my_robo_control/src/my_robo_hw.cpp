@@ -66,8 +66,10 @@ MyRobo::MyRobo()
 
 void MyRobo::read(ros::Time time, ros::Duration period)
 {
-	ROS_INFO_STREAM("Commands for joints: " << cmd_[0] << ", " << -cmd_[1]);
-    int ret = YP_wheel_vel(cmd_[1], -cmd_[0]);
+    if (cmd_[0] || cmd_[1])
+    	ROS_INFO_STREAM("Commands for joints: " << cmd_[0] << ", " << -cmd_[1]);
+    	
+    int ret = YP_wheel_vel(cmd_[0], -cmd_[1]);
 }
 
 void MyRobo::write(ros::Time time, ros::Duration period)
@@ -75,9 +77,11 @@ void MyRobo::write(ros::Time time, ros::Duration period)
     double yp_vel[2];
     yp_vel[0] = 0;
     yp_vel[1] = 0;
-    YP_get_wheel_vel(&yp_vel[1], &yp_vel[0]);
-    yp_vel[0] = -yp_vel[0];
-    //ROS_INFO_STREAM("YPSpur vel: " << yp_vel[0] << ", " << -yp_vel[1]);
+    YP_get_wheel_vel(&yp_vel[0], &yp_vel[1]);
+    yp_vel[1] = -yp_vel[1];
+    
+    if (yp_vel[0] || yp_vel[1])
+        ROS_INFO_STREAM("YPSpur vel: " << yp_vel[0] << ", " << -yp_vel[1]);
 
     for (unsigned int i = 0; i < 2; ++i)
     {

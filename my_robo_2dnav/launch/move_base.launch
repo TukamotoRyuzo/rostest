@@ -1,6 +1,6 @@
 <launch>
   <master auto="start"/>
-  <arg name="laser" default="/rrbot/laser/scan"/>
+  <arg name="laser" default="/scan"/>
   <arg name="cmd_vel" default="my_robo/diff_drive_controller/cmd_vel"/>
   <arg name="costmap_common" default="$(find my_robo_2dnav)/costmap_common_params.yaml"/>
   
