@@ -2,8 +2,7 @@
   <master auto="start"/>
   <arg name="laser" default="/scan"/>
   <arg name="cmd_vel" default="my_robo/diff_drive_controller/cmd_vel"/>
-  <arg name="costmap_common" default="$(find my_robo_2dnav)/costmap_common_params.yaml"/>
-  
+
   <!-- Run the map server -->
   #マップサーバを開始する
   <arg name="map_file" default="$(find my_robo_2dnav)/map/map.yaml"/>
@@ -22,15 +21,15 @@
     <param name="max_particles" value="5000"/>
     <param name="kld_err" value="0.05"/>
     <param name="kld_z" value="0.99"/>
-    <param name="odom_alpha1" value="0.1"/>
-    <param name="odom_alpha2" value="0.1"/>
+    <param name="odom_alpha1" value="0.0"/>
+    <param name="odom_alpha2" value="0.0"/>
     <!-- translation std dev, m -->
-    <param name="odom_alpha3" value="0.2"/>
-    <param name="odom_alpha4" value="0.1"/>
-    <param name="laser_z_hit" value="0.5"/>
+    <param name="odom_alpha3" value="0.0"/>
+    <param name="odom_alpha4" value="0.0"/>
+    <param name="laser_z_hit" value="0.95"/>
     <param name="laser_z_short" value="0.05"/>
     <param name="laser_z_max" value="0.05"/>
-    <param name="laser_z_rand" value="0.5"/>
+    <param name="laser_z_rand" value="0.05"/>
     <param name="laser_sigma_hit" value="0.2"/>
     <param name="laser_lambda_short" value="0.1"/>
     <param name="laser_model_type" value="likelihood_field"/>
@@ -47,8 +46,8 @@
   #move_baseはcmd_velトピックを出すが、diff_drive_controller用に/my_robo/diff_drive_controller/cmd_velという名前のトピックに変更している
   <!--- Run Move Base -->
   <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen" args="/cmd_vel:=$(arg cmd_vel)">
-    <rosparam file="$(arg costmap_common)" command="load" ns="global_costmap" />
-    <rosparam file="$(arg costmap_common)" command="load" ns="local_costmap" />
+    <rosparam file="$(find my_robo_2dnav)/costmap_common_params.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find my_robo_2dnav)/costmap_common_params.yaml" command="load" ns="local_costmap" />
     <rosparam file="$(find my_robo_2dnav)/local_costmap_params.yaml" command="load" />
     <rosparam file="$(find my_robo_2dnav)/global_costmap_params.yaml" command="load" />
     <rosparam file="$(find my_robo_2dnav)/base_local_planner_params.yaml" command="load" />
