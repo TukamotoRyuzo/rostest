@@ -6,12 +6,12 @@
   <property name="base_depth"  value="0.400"/>
   <property name="wheel_radius" value="0.15"/>
   <property name="wheel_length" value="0.05"/>
-  <property name="base_mass" value="5.5"/>
+  <property name="base_mass" value="0.5"/>
   <property name="wheel_mass" value="0.5"/>
   
-  <property name="base_ixx" value="${1.0/12.0*base_mass*(base_height*base_height+base_depth*base_depth)}"/>
-  <property name="base_iyy" value="${1.0/12.0*base_mass*(base_width*base_width+base_depth*base_depth)}"/>
-  <property name="base_izz" value="${1.0/12.0*base_mass*(base_width*base_width+base_height*base_height)}"/>
+  <property name="base_ixx" value="${1.0/12.0*base_mass*(base_width*base_width+base_height*base_height)}"/>
+  <property name="base_iyy" value="${1.0/12.0*base_mass*(base_height*base_height+base_depth*base_depth)}"/>
+  <property name="base_izz" value="${1.0/12.0*base_mass*(base_width*base_width+base_depth*base_depth)}"/>
 
   <property name="wheel_ixx" value="${1.0/12.0*wheel_mass*(3.0*wheel_radius*wheel_radius+wheel_length*wheel_length)}"/>
   <property name="wheel_iyy" value="${1.0/12.0*wheel_mass*(3.0*wheel_radius*wheel_radius+wheel_length*wheel_length)}"/>
@@ -192,6 +192,7 @@
   </gazebo>
  
   <gazebo reference="base_link">
+    <selfCollide>true</selfCollide>
     <mu1 value="0.05" />
     <mu2 value="0.05" />
   </gazebo>
