@@ -1,33 +1,46 @@
 <?xml version="1.0"?>
 <robot name="my_robo" >
   <property name="M_PI" value="3.14159274"/>
-  <property name="base_width"  value="0.400"/>
-  <property name="base_height" value="1.200"/>
-  <property name="base_depth"  value="0.400"/>
-  <property name="wheel_radius" value="0.15"/>
-  <property name="wheel_length" value="0.05"/>
-  <property name="base_mass" value="0.5"/>
-  <property name="wheel_mass" value="0.5"/>
+  <property name="bw"  value="0.400"/>
+  <property name="bh" value="1.200"/>
+  <property name="bd"  value="0.400"/>
+  <property name="wr" value="0.15"/>
+  <property name="wl" value="0.05"/>
+  <property name="cr" value="0.05"/>
   
-  <property name="base_ixx" value="${1.0/12.0*base_mass*(base_width*base_width+base_height*base_height)}"/>
-  <property name="base_iyy" value="${1.0/12.0*base_mass*(base_height*base_height+base_depth*base_depth)}"/>
-  <property name="base_izz" value="${1.0/12.0*base_mass*(base_width*base_width+base_depth*base_depth)}"/>
+  <property name="base_mass" value="1.0"/>
+  <property name="wheel_mass" value="1.5"/>
+  <property name="caster_mass" value="1.0"/>
+  
+  <property name="base_ixx" value="${1.0/12.0*base_mass*(bw*bw+bh*bh)}"/>
+  <property name="base_iyy" value="${1.0/12.0*base_mass*(bh*bh+bd*bd)}"/>
+  <property name="base_izz" value="${1.0/12.0*base_mass*(bw*bw+bd*bd)}"/>
 
-  <property name="wheel_ixx" value="${1.0/12.0*wheel_mass*(3.0*wheel_radius*wheel_radius+wheel_length*wheel_length)}"/>
-  <property name="wheel_iyy" value="${1.0/12.0*wheel_mass*(3.0*wheel_radius*wheel_radius+wheel_length*wheel_length)}"/>
-  <property name="wheel_izz" value="${1.0/2.0*wheel_mass*wheel_radius*wheel_radius}"/>
+  <property name="wheel_ixx" value="${1.0/12.0*wheel_mass*(3.0*wr*wr+wl*wl)}"/>
+  <property name="wheel_iyy" value="${1.0/12.0*wheel_mass*(3.0*wr*wr+wl*wl)}"/>
+  <property name="wheel_izz" value="${1.0/2.0*wheel_mass*wr*wr}"/>
+  
+  <property name="caster_i" value="${1.0/5.0*caster_mass*cr*cr}"/>
+  
+  <property name="wx" value="${bd/4.0}"/>
+  <property name="wy" value="${bw/2.0+wl/2.0+0.005}"/>
+  <property name="wz" value="${bh/2.0-(wr-cr*2)+0.01}"/>
+  
+  <property name="cx" value="${bd/8.0*3.0}"/>
+  <property name="cy" value="0"/>
+  <property name="cz" value="${bh/2.0+cr}"/>
   
   <!-- define robot shape -->
   <link name="base_link">
     <visual>
       <geometry>
-        <box size="${base_width} ${base_depth} ${base_height}"/>
+        <box size="${bw} ${bd} ${bh}"/>
       </geometry>
     </visual>
  
     <collision>
       <geometry>
-        <box size="${base_width} ${base_depth} ${base_height}"/>
+        <box size="${bw} ${bd} ${bh}"/>
       </geometry>
     </collision>
  
@@ -41,7 +54,7 @@
   <link name="left_wheel_link">
     <visual>
       <geometry>
-        <cylinder radius="${wheel_radius}" length="${wheel_length}"/>
+        <cylinder radius="${wr}" length="${wl}"/>
       </geometry>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <material name="black"/>
@@ -49,7 +62,7 @@
  
     <collision>
       <geometry>
-        <cylinder radius="${wheel_radius}" length="${wheel_length}"/>
+        <cylinder radius="${wr}" length="${wl}"/>
       </geometry>
     </collision>
  
@@ -64,14 +77,14 @@
   <joint name="left_wheel_joint" type="continuous">
     <parent link="base_link"/>
     <child link="left_wheel_link"/>
-    <origin rpy="-1.5707 0 0" xyz="-0.100 0.230 -0.57"/>
+    <origin rpy="-1.5707 0 0" xyz="${-wx} ${wy} ${-wz}"/>
     <axis xyz="0 0 1"/>
   </joint>
  
   <link name="right_wheel_link">
     <visual>
       <geometry>
-        <cylinder radius="${wheel_radius}" length="${wheel_length}"/>
+        <cylinder radius="${wr}" length="${wl}"/>
       </geometry>
       <origin xyz="0 0 0" rpy="0 0 0"/>
       <material name="black"/>
@@ -79,7 +92,7 @@
  
     <collision>
       <geometry>
-        <cylinder radius="${wheel_radius}" length="${wheel_length}"/>
+        <cylinder radius="${wr}" length="${wl}"/>
       </geometry>
     </collision>
  
@@ -94,14 +107,14 @@
   <joint name="right_wheel_joint" type="continuous">
     <parent link="base_link"/>
     <child link="right_wheel_link"/>
-    <origin rpy="1.5707 0 0" xyz="-0.100 -0.230 -0.57"/>
+    <origin rpy="1.5707 0 0" xyz="${-wx} ${-wy} ${-wz}"/>
     <axis xyz="0 0 -1"/>
   </joint>
  
   <link name="caster_link">
     <visual>
       <geometry>
-        <sphere radius="0.05"/>
+        <sphere radius="${cr}"/>
       </geometry>
       <material name="green">
         <color rgba="0 1 0 1"/>
@@ -110,28 +123,28 @@
  
     <collision>
       <geometry>
-        <sphere radius="0.05"/>
+        <sphere radius="${cr}"/>
       </geometry>
     </collision>
  
     <inertial>
       <origin xyz="0 0 0"/>
-      <mass value="0.500"/>
-      <inertia ixx="0.00025" ixy="0" ixz="0" iyy="0.00025"  iyz="0" izz="0.00025"/>
+      <mass value="${caster_mass}"/>
+      <inertia ixx="${caster_i}" ixy="0" ixz="0" iyy="${caster_i}"  iyz="0" izz="${caster_i}"/>
     </inertial>
   </link>
  
   <joint name="caster_joint" type="fixed">
     <parent link="base_link"/>
     <child link="caster_link"/>
-    <origin xyz="0.150 0 -0.650"/>
+    <origin xyz="${cx} ${cy} ${-cz}"/>
   </joint>
  
   <link name="base_footprint"/>
   <joint name="base_link_joint" type="fixed">
     <parent link="base_footprint"/>
     <child link="base_link"/>
-    <origin xyz="0 0 0.100"/>
+    <origin xyz="0 0 0"/>
   </joint>
  
   <!-- Hokuyo Laser -->

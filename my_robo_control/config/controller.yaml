@@ -1,10 +1,8 @@
 my_robo:
-  # Publish all joint states -----------------------------------
   joint_state_controller:
     type: joint_state_controller/JointStateController
     publish_rate: 50
  
-  # wheel Controllers ---------------------------------------
   diff_drive_controller:
     type        : "diff_drive_controller/DiffDriveController"
     left_wheel  : 'left_wheel_joint'
@@ -18,7 +16,7 @@ my_robo:
     # URDF if not specified as a parameter
     # (If controller trying to read from a URDF file, we don't need to define values here?)
     # (but comment out this, navigation does not work.)
-    wheel_separation : 0.46
+    wheel_separation : 0.41
     wheel_radius : 0.15
  
     # Wheel separation and radius multipliers
@@ -36,8 +34,8 @@ my_robo:
     linear:
       x:
         has_velocity_limits    : true
-        max_velocity           : 1.11  # m/s
-        min_velocity           : -1.11 # m/s
+        max_velocity           : 1.0  # m/s
+        min_velocity           : -0.5 # m/s
         has_acceleration_limits: true
         max_acceleration       : 0.2  # m/s^2
         min_acceleration       : -0.2 # m/s^2
