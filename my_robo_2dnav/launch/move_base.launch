@@ -1,7 +1,7 @@
 <launch>
   <master auto="start"/>
   <arg name="laser" default="/scan"/>
-  <arg name="cmd_vel" default="my_robo/diff_drive_controller/cmd_vel"/>
+  <arg name="cmd_vel" default="/my_robo/diff_drive_controller/cmd_vel"/>
 
   <!-- Run the map server -->
   #マップサーバを開始する
