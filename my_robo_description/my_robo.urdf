@@ -1,11 +1,11 @@
 <?xml version="1.0"?>
 <robot name="my_robo" >
   <property name="M_PI" value="3.14159274"/>
-  <property name="bw"  value="0.400"/>
-  <property name="bh" value="1.200"/>
-  <property name="bd"  value="0.400"/>
-  <property name="wr" value="0.15"/>
-  <property name="wl" value="0.05"/>
+  <property name="bw"  value="0.330"/>
+  <property name="bh" value="0.900"/>
+  <property name="bd"  value="0.310"/>
+  <property name="wr" value="0.085"/>
+  <property name="wl" value="0.065"/>
   <property name="cr" value="0.05"/>
   
   <property name="base_mass" value="1.0"/>
