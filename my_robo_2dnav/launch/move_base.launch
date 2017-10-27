@@ -5,7 +5,7 @@
 
   <!-- Run the map server -->
   #マップサーバを開始する
-  <arg name="map_file" default="$(find my_robo_2dnav)/map/map.yaml"/>
+  <arg name="map_file" default="$(find my_robo_2dnav)/map/willow_garage/map.yaml"/>
   <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
  
   #AMCLを開始する
