@@ -2,61 +2,85 @@
 <robot name="my_robo" >
   <property name="M_PI" value="3.14159274"/>
   
+  <!-- footprint -->
+  <property name="fw"  value="0.660"/>
+  <property name="fh"  value="0.010"/>
+  <property name="fd"  value="0.330"/>
+  <property name="foot_mass" value="1.0"/>
+  <property name="foot_ixx" value="${1.0/12.0*foot_mass*(fw*fw+fh*fh)}"/>
+  <property name="foot_iyy" value="${1.0/12.0*foot_mass*(fh*fh+fd*fd)}"/>
+  <property name="foot_izz" value="${1.0/12.0*foot_mass*(fw*fw+fd*fd)}"/>
+   
   <!-- base -->
-  <property name="bw"  value="0.330"/>
+  <property name="bw"  value="${fw/2}"/>
   <property name="bh"  value="0.900"/>
-  <property name="bd"  value="0.310"/>
+  <property name="bd"  value="${fd}"/>
+  <property name="bx"  value="${-fw/4}"/>
+  <property name="by"  value="0"/>
+  <property name="bz"  value="${fh/2+bh/2}"/>
   <property name="base_mass" value="1.0"/>
   <property name="base_ixx" value="${1.0/12.0*base_mass*(bw*bw+bh*bh)}"/>
   <property name="base_iyy" value="${1.0/12.0*base_mass*(bh*bh+bd*bd)}"/>
   <property name="base_izz" value="${1.0/12.0*base_mass*(bw*bw+bd*bd)}"/>
-   
+
   <!-- wheel -->
   <property name="wr" value="0.085"/>
   <property name="wl" value="0.065"/>
+  <property name="wx" value="${bd/4.0}"/>
+  <property name="wy" value="${bw/2.0+wl/2.0+0.005}"/>
+  <property name="wz" value="${bh/2.0-(wr-cr*2)+0.01}"/>
   <property name="wheel_mass" value="1.5"/>
   <property name="wheel_ixx" value="${1.0/12.0*wheel_mass*(3.0*wr*wr+wl*wl)}"/>
   <property name="wheel_iyy" value="${1.0/12.0*wheel_mass*(3.0*wr*wr+wl*wl)}"/>
   <property name="wheel_izz" value="${1.0/2.0*wheel_mass*wr*wr}"/>
-  <property name="wx" value="${bd/4.0}"/>
-  <property name="wy" value="${bw/2.0+wl/2.0+0.005}"/>
-  <property name="wz" value="${bh/2.0-(wr-cr*2)+0.01}"/>
-  
+
   <!-- caster -->
   <property name="cr" value="0.05"/>
+  <property name="cx" value="${fw/8.0*3.0}"/>
+  <property name="cy" value="0"/>
+  <property name="cz" value="${fh/2.0+cr}"/>
   <property name="caster_mass" value="1.0"/>
   <property name="caster_i" value="${1.0/5.0*caster_mass*cr*cr}"/>
-  <property name="cx" value="${bd/8.0*3.0}"/>
-  <property name="cy" value="0"/>
-  <property name="cz" value="${bh/2.0+cr}"/>
-  
+
   <!-- neck -->
   <property name="nw"  value="0.05"/>
   <property name="nh"  value="0.05"/>
   <property name="nd"  value="0.05"/>
+  <property name="nx" value="0"/>
+  <property name="ny" value="0"/>
+  <property name="nz" value="${bh/2.0+nh/2.0}"/>
   <property name="neck_mass" value="1.0"/>
   <property name="neck_ixx" value="${1.0/12.0*head_mass*(nw*nw+nh*nh)}"/>
   <property name="neck_iyy" value="${1.0/12.0*head_mass*(nh*nh+nd*nd)}"/>
   <property name="neck_izz" value="${1.0/12.0*head_mass*(nw*nw+nd*nd)}"/>
-  <property name="nx" value="0"/>
-  <property name="ny" value="0"/>
-  <property name="nz" value="${bh/2.0+nh/2.0}"/>
-  
+
   <!-- head -->
   <property name="hw"  value="0.330"/>
   <property name="hh" value="0.03"/>
   <property name="hd"  value="0.310"/>
+  <property name="hx" value="0"/>
+  <property name="hy" value="0"/>
+  <property name="hz" value="${nh/2.0+hh/2.0}"/>
   <property name="head_mass" value="1.0"/>
   <property name="head_ixx" value="${1.0/12.0*head_mass*(hw*hw+hh*hh)}"/>
   <property name="head_iyy" value="${1.0/12.0*head_mass*(hh*hh+hd*hd)}"/>
   <property name="head_izz" value="${1.0/12.0*head_mass*(hw*hw+hd*hd)}"/>
-  <property name="hx" value="0"/>
-  <property name="hy" value="0"/>
-  <property name="hz" value="${nh/2.0+hh/2.0}"/>
-
-  <!-- define robot shape -->
-  <link name="base_footprint"/>
-
+  
+  <!-- footprint -->
+  <link name="base_footprint">
+    <visual>
+      <geometry>
+        <box size="${fw} ${fd} ${fh}"/>
+      </geometry>
+    </visual>
+ 
+    <collision>
+      <geometry>
+        <box size="${fw} ${fd} ${fh}"/>
+      </geometry>
+    </collision>
+  </link>
+  
   <!-- base_link -->
   <link name="base_link">
     <visual>
@@ -82,7 +106,7 @@
   <joint name="base_link_joint" type="fixed">
     <parent link="base_footprint"/>
     <child link="base_link"/>
-    <origin xyz="0 0 0"/>
+    <origin xyz="${bx} ${by} ${bz}"/>
   </joint>
   
   
@@ -229,7 +253,7 @@
   </link>
  
   <joint name="caster_joint" type="fixed">
-    <parent link="base_link"/>
+    <parent link="base_footprint"/>
     <child link="caster_link"/>
     <origin xyz="${cx} ${cy} ${-cz}"/>
   </joint>
@@ -259,8 +283,9 @@
   
   <joint name="hokuyo_joint" type="fixed">
     <axis xyz="0 1 0" />
-    <origin xyz="${bd/2+0.05} 0 0" rpy="0 0 0"/>
-    <parent link="base_link"/>
+    <!--<origin xyz="${bd/2+0.05} 0 0" rpy="0 0 0"/>-->
+    <origin xyz="0 0 ${hh/2.0+0.025} " rpy="0 0 0"/>
+    <parent link="head_link"/>
     <child link="hokuyo_link"/>
   </joint>
  
@@ -285,7 +310,16 @@
       <mechanicalReduction>30</mechanicalReduction>
     </actuator>
   </transmission>
- 
+  <transmission name="head_trans">
+    <type>transmission_interface/SimpleTransmission</type>
+    <joint name="head_joint">
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+    </joint>
+    <actuator name="head_motor">
+      <hardwareInterface>hardware_interface/VelocityJointInterface</hardwareInterface>
+      <mechanicalReduction>30</mechanicalReduction>
+    </actuator>
+  </transmission>
   <gazebo>
     <plugin name="gazebo_ros_control" filename="libgazebo_ros_control.so">
       <robotNamespace>my_robo</robotNamespace>
