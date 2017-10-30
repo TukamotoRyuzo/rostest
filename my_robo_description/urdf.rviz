@@ -26,7 +26,7 @@ Panels:
     Experimental: false
     Name: Time
     SyncMode: 0
-    SyncSource: LaserScan
+    SyncSource: ""
 Visualization Manager:
   Class: ""
   Displays:
@@ -68,6 +68,11 @@ Visualization Manager:
           Show Trail: false
           Value: true
         caster_link:
+          Alpha: 1
+          Show Axes: false
+          Show Trail: false
+          Value: true
+        head_link:
           Alpha: 1
           Show Axes: false
           Show Trail: false
@@ -134,11 +139,11 @@ Visualization Manager:
           Value: true
         caster_link:
           Value: true
+        head_link:
+          Value: true
         hokuyo_link:
           Value: true
         left_wheel_link:
-          Value: true
-        odom:
           Value: true
         right_wheel_link:
           Value: true
@@ -148,17 +153,17 @@ Visualization Manager:
       Show Axes: true
       Show Names: true
       Tree:
-        odom:
-          base_footprint:
-            base_link:
-              caster_link:
-                {}
+        base_footprint:
+          base_link:
+            caster_link:
+              {}
+            head_link:
               hokuyo_link:
                 {}
-              left_wheel_link:
-                {}
-              right_wheel_link:
-                {}
+            left_wheel_link:
+              {}
+            right_wheel_link:
+              {}
       Update Interval: 0
       Value: true
   Enabled: true
@@ -185,7 +190,7 @@ Visualization Manager:
   Views:
     Current:
       Class: rviz/Orbit
-      Distance: 4.61937332
+      Distance: 2.02433276
       Enable Stereo Rendering:
         Stereo Eye Separation: 0.0599999987
         Stereo Focal Distance: 1
@@ -197,12 +202,13 @@ Visualization Manager:
         Z: 0
       Focal Shape Fixed Size: true
       Focal Shape Size: 0.0500000007
+      Invert Z Axis: false
       Name: Current View
       Near Clip Distance: 0.00999999978
-      Pitch: 1.55479729
+      Pitch: 0.304797947
       Target Frame: <Fixed Frame>
       Value: Orbit (rviz)
-      Yaw: 4.27998018
+      Yaw: 6.07498741
     Saved: ~
 Window Geometry:
   Displays:
@@ -220,5 +226,5 @@ Window Geometry:
   Views:
     collapsed: false
   Width: 768
-  X: 397
-  Y: 913
+  X: 284
+  Y: 553

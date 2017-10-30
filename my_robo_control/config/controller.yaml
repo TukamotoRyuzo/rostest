@@ -16,7 +16,7 @@ my_robo:
     # URDF if not specified as a parameter
     # (If controller trying to read from a URDF file, we don't need to define values here?)
     # (but comment out this, navigation does not work.)
-    wheel_separation : 0.37
+    wheel_separation : 0.34
     wheel_radius : 0.085
  
     # Wheel separation and radius multipliers
@@ -35,10 +35,10 @@ my_robo:
       x:
         has_velocity_limits    : true
         max_velocity           : 1.0  # m/s
-        min_velocity           : -0.5 # m/s
+        min_velocity           : -1.0 # m/s
         has_acceleration_limits: true
-        max_acceleration       : 0.2  # m/s^2
-        min_acceleration       : -0.2 # m/s^2
+        max_acceleration       : 0.5  # m/s^2
+        min_acceleration       : -0.5 # m/s^2
     angular:
       z:
         has_velocity_limits    : true
