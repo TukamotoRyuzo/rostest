@@ -43,17 +43,17 @@ MyRobo::MyRobo()
     cmd_[0] = 0.0; cmd_[1] = 0.0;
 
     hardware_interface::JointStateHandle state_handle_1("right_wheel_joint", &pos_[0], &vel_[0], &eff_[0]);
+    hardware_interface::JointStateHandle state_handle_2("left_wheel_joint",  &pos_[1], &vel_[1], &eff_[1]);
+    
     jnt_state_interface_.registerHandle(state_handle_1);
-
-    hardware_interface::JointStateHandle state_handle_2("left_wheel_joint", &pos_[1], &vel_[1], &eff_[1]);
     jnt_state_interface_.registerHandle(state_handle_2);
 
     registerInterface(&jnt_state_interface_);
 
     hardware_interface::JointHandle vel_handle_1(jnt_state_interface_.getHandle("right_wheel_joint"), &cmd_[0]);
+    hardware_interface::JointHandle vel_handle_2(jnt_state_interface_.getHandle("left_wheel_joint"),  &cmd_[1]);
+    
     jnt_vel_interface_.registerHandle(vel_handle_1);
-
-    hardware_interface::JointHandle vel_handle_2(jnt_state_interface_.getHandle("left_wheel_joint"), &cmd_[1]);
     jnt_vel_interface_.registerHandle(vel_handle_2);
 
     registerInterface(&jnt_vel_interface_);

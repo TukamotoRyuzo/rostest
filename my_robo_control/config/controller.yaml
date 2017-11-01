@@ -3,6 +3,11 @@ my_robo:
     type: joint_state_controller/JointStateController
     publish_rate: 50
  
+  head_position_controller: 
+    type: effort_controllers/JointPositionController
+    joint: head_joint
+    pid: {p: 100.0, i: 0.01, d: 10.0}
+    
   diff_drive_controller:
     type        : "diff_drive_controller/DiffDriveController"
     left_wheel  : 'left_wheel_joint'

@@ -28,10 +28,15 @@ include_directories(
 )
 
 add_executable(my_robo_control src/my_robo_control.cpp src/my_robo_hw.cpp)
+add_executable(head_control src/head_control.cpp)
 
 target_link_libraries(my_robo_control
   ${catkin_LIBRARIES}
   ${ypspur_LIBRARIES}
+)
+
+target_link_libraries(head_control
+  ${catkin_LIBRARIES}
 )
 
 install(TARGETS my_robo_control

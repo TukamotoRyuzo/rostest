@@ -12,7 +12,7 @@
   #コントローラを読み込む
   <node name="controller_spawner" pkg="controller_manager"
         type="spawner" ns="my_robo" output="screen"
-        args="joint_state_controller diff_drive_controller"/>
+        args="joint_state_controller diff_drive_controller head_position_controller"/>s
  
   <!-- convert joint states to TF transforms for rviz, etc -->
   #rvizやその他のためにjoint statesをTF transformsに変換する。

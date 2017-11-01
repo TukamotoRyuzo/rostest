@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
     ros::AsyncSpinner spinner(1);
     spinner.start();
 
-    while(ros::ok())
+    while (ros::ok())
     {
         ros::Time now = myrobo.getTime();
         ros::Duration dt = myrobo.getPeriod();
@@ -34,6 +34,8 @@ int main(int argc, char *argv[])
                 ROS_WARN("try to connect T-frog driver");
                 ros::Duration(1).sleep();
             }
+            
+            ROS_INFO("connected T-frog driver");
         }
 
         cm.update(now, dt);
@@ -42,7 +44,6 @@ int main(int argc, char *argv[])
     
     spinner.stop();
     myrobo.stop();
-    
     return 0;
 }
 
