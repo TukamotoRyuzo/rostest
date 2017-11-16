@@ -17,10 +17,10 @@ void monitorJointState(const sensor_msgs::JointState::ConstPtr& jointstate)
 
 int main(int argc, char **argv)
 {
-  ros::init(argc, argv, "head_control");  // ノードの初期化
-  ros::NodeHandle nh; // ノードハンドラ  
-  ros::Publisher  pub_joint1, pub_joint2;  // パブリッシャの作成
-  ros::Subscriber sub_joints, sub_sensor;  // サブスクライバの作成
+  ros::init(argc, argv, "head_control");
+  ros::NodeHandle nh;
+  ros::Publisher  pub_joint1, pub_joint2; // パブリッシャの作成
+  ros::Subscriber sub_joints, sub_sensor; // サブスクライバの作成
 
   std_msgs::Float64 target_joint1, target_joint2;
 
@@ -39,10 +39,10 @@ int main(int argc, char **argv)
     cout << key << endl;
 
     switch (key) {
-    case 'j': target_joint1.data  +=  5 * M_PI/180.0; break;
-    case 'f': target_joint1.data  -=  5 * M_PI/180.0; break;
-    case 'k': target_joint2.data  +=  5 * M_PI/180.0; break;
-    case 'd': target_joint2.data  -=  5 * M_PI/180.0; break;
+    case 'j': target_joint1.data += 5 * M_PI/180.0; break;
+    case 'f': target_joint1.data -= 5 * M_PI/180.0; break;
+    case 'k': target_joint2.data += 5 * M_PI/180.0; break;
+    case 'd': target_joint2.data -= 5 * M_PI/180.0; break;
     default: ROS_INFO("Input j,f,k,d");
     }
       
@@ -52,7 +52,7 @@ int main(int argc, char **argv)
 
     usleep(1000*1000); // 制御に時間がかかるので1秒寝て待つ
     ros::spinOnce();   // コールバック関数を呼ぶ
-    ROS_INFO("Tmp:Joint1=%f Joint2=%f", tmp_joint1.data,    tmp_joint2.data);
+    ROS_INFO("Tmp:Joint1=%f Joint2=%f", tmp_joint1.data, tmp_joint2.data);
   }
   
   return 0;

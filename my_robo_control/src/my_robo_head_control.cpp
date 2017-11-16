@@ -4,6 +4,10 @@
 #include <my_robo_control/my_robo_hw.h>
 #include <iostream> // for debug
 #include <controller_manager/controller_manager.h>
+#include <std_msgs/String.h>
+
+// 首へ指令値を送るpublisher
+ros::Publisher pub;
 
 MyRoboHead::MyRoboHead()
 {
@@ -32,20 +36,34 @@ MyRoboHead::MyRoboHead()
 void MyRoboHead::read(ros::Time time, ros::Duration period)
 {
     if (cmd_[0] || cmd_[1])
+    {
     	ROS_INFO_STREAM("Commands for joints: " << cmd_[0] << ", " << -cmd_[1]);
     	
-    // 首モータへのシリアル通信
+        // 首モータへのシリアル通信
+        std_msgs::String msg;
+        msg.data = "CML30";    
+        pub.publish(msg);
+    }
 }
 
 void MyRoboHead::write(ros::Time time, ros::Duration period)
 {
     // writeは頭の角度を教えなければならないがどうしようか。
+    // マイコンから角度を取得することもできるみたいだが、readで指令値を送ってから何秒立ったかで角度を知ることもできる。
+    /*
+    for (unsigned int i = 0; i < 2; ++i)
+    {
+        pos_[i] += yp_vel[i] * getPeriod().toSec();
+        vel_[i] = yp_vel[i];
+    }
+    */
 }
 
 int main(int argc, char *argv[])
 {
     ros::init(argc, argv, "my_robo_head_control");
     ros::NodeHandle nh;
+    pub = nh.advertise<std_msgs::String>("neck_rotate", 10);
     MyRoboHead myrobo;
     controller_manager::ControllerManager cm(&myrobo, nh);
 

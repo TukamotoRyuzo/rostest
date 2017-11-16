@@ -57,16 +57,34 @@ void tableNumberCallback(const std_msgs::Int8::ConstPtr& msg)
 
     ROS_INFO("Sending goal");
     gac->sendGoal(goal);
+    
+    // waitForResultしている間に他のサブスクライバが動けるか。
+    // →動けない。プリエンプションさせるノードが別に必要。
     gac->waitForResult();
-
-    if (gac->getState() == actionlib::SimpleClientGoalState::SUCCEEDED)
-    {
-        // 成功したら移動完了メッセージを送る。
+    auto state = gac->getState();
+    
+    // 成功したら移動完了メッセージを送る。
+    if (state == actionlib::SimpleClientGoalState::SUCCEEDED)
+    {    
         ROS_INFO("Hooray, the base moved 1 meter forward");
         std_msgs::Int8 m;
         m.data = 0;
         gpub->publish(m);
     }
+    
+    // 処理目標が処理されている間、クライアント側のキャンセル要求により処理が中断された 
+    // ここは人を検知した時の処理が入ると思う。
+    else if (state == actionlib::SimpleClientGoalState::PREEMPTED)
+    {
+        ROS_INFO("preempted");
+        
+        // 人回避中。回避が終わるまで待つ。
+        do {
+            gac->waitForResult();
+        } while (gac->getState() != actionlib::SimpleClientGoalState::SUCCEEDED);
+    }
+    
+    // なんらかの理由で失敗
     else
     {
         ROS_INFO("The base failed to move for some reason");
@@ -96,7 +114,7 @@ int main(int argc, char** argv)
     gac = &ac;
     ros::NodeHandle n;
     ros::Publisher pub = n.advertise<std_msgs::Int8>("navigate_result", 10);
-    ros::Subscriber sub = n.subscribe("table_number", 10, tableNumberCallback);    
+    ros::Subscriber sub = n.subscribe("table_number", 10, tableNumberCallback);
     gpub = &pub;
     ros::spin();
     
