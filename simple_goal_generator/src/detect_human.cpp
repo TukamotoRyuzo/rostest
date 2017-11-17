@@ -11,7 +11,7 @@ MoveBaseClient* gac;
 void evasionCallback(const std_msgs::Int8::ConstPtr& msg)
 {
     ROS_INFO("detect human! preempting...");
-    gac->cancelGoal();
+    gac->cancelAllGoals();
 }
 
 int main(int argc, char** argv)

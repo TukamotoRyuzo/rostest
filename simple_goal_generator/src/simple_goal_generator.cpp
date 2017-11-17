@@ -55,43 +55,48 @@ void tableNumberCallback(const std_msgs::Int8::ConstPtr& msg)
     goal.target_pose.header.stamp = ros::Time::now();
     goal.target_pose.pose = p[msg->data];
 
-    ROS_INFO("Sending goal");
-    gac->sendGoal(goal);
-    
-    // waitForResultしている間に他のサブスクライバが動けるか。
-    // →動けない。プリエンプションさせるノードが別に必要。
-    gac->waitForResult();
-    auto state = gac->getState();
-    
-    // 成功したら移動完了メッセージを送る。
-    if (state == actionlib::SimpleClientGoalState::SUCCEEDED)
-    {    
-        ROS_INFO("Hooray, the base moved 1 meter forward");
-        std_msgs::Int8 m;
-        m.data = 0;
-        gpub->publish(m);
-    }
-    
-    // 処理目標が処理されている間、クライアント側のキャンセル要求により処理が中断された 
-    // ここは人を検知した時の処理が入ると思う。
-    else if (state == actionlib::SimpleClientGoalState::PREEMPTED)
-    {
-        ROS_INFO("preempted");
+    do {
+        ROS_INFO("Sending goal");
+        gac->sendGoal(goal);
         
-        // 人回避中。回避が終わるまで待つ。
-        do {
-            gac->waitForResult();
-        } while (gac->getState() != actionlib::SimpleClientGoalState::SUCCEEDED);
-    }
+        // waitForResultしている間に他のサブスクライバが動けるか。
+        // →動けない。プリエンプションさせるノードが別に必要。
+        // →作った。
+        gac->waitForResult();
+        auto state = gac->getState();
+        printf("state = %s", state.toString().c_str());
+        
+        // 成功したら終了
+        if (state == actionlib::SimpleClientGoalState::SUCCEEDED)
+            break;
+
+        // 処理目標が処理されている間、クライアント側のキャンセル要求により処理が中断された 
+        // ここは人を検知した時の処理が入る。
+        else if (state == actionlib::SimpleClientGoalState::PREEMPTED)
+        {
+            ROS_INFO("evasion start!");
+            
+            // 人回避中。回避が終わるまで待つ。
+            // ここに人を回避するコードを書いてください。
+            
+            ROS_INFO("evasion end!");
+        }
+        
+        // なんらかの理由で失敗
+        else
+        {
+            ROS_INFO("The base failed to move for some reason");
+            std_msgs::Int8 m;
+            m.data = -1;
+            gpub->publish(m);
+            return;
+        }     
+    } while (true);
     
-    // なんらかの理由で失敗
-    else
-    {
-        ROS_INFO("The base failed to move for some reason");
-        std_msgs::Int8 m;
-        m.data = -1;
-        gpub->publish(m);
-    }
+    ROS_INFO("Hooray! Hi Hi Hi.");
+    std_msgs::Int8 m;
+    m.data = 0;
+    gpub->publish(m);     
 }
 
 int main(int argc, char** argv)
