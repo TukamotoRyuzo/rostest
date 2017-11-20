@@ -136,7 +136,7 @@
     <child link="neck_link"/>
     <origin rpy="0 0 0" xyz="${nx} ${ny} ${nz}"/>
     <axis xyz="0 0 1"/>
-    <limit lower="${-M_PI/180.0*30.0}" upper="${M_PI/180.0*30.0}" effort="0.5293" velocity="6.159937255"/>
+    <limit lower="${-M_PI/180.0*40.0}" upper="${M_PI/180.0*40.0}" effort="0.5293" velocity="6.159937255"/>
   </joint>
   
   <!-- head_link -->
@@ -165,7 +165,7 @@
     <child link="head_link"/>
     <origin rpy="0 0 0" xyz="${hx} ${hy} ${hz}"/>
     <axis xyz="0 1 0"/>
-    <limit lower="${-M_PI/180.0*30.0}" upper="${M_PI/180.0*30.0}" effort="0.5293" velocity="6.159937255"/>
+    <limit lower="${-M_PI/180.0*20.0}" upper="${M_PI/180.0*20.0}" effort="0.5293" velocity="6.159937255"/>
   </joint>
 
   <!-- wheel -->

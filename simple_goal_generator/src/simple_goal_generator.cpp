@@ -78,6 +78,7 @@ void tableNumberCallback(const std_msgs::Int8::ConstPtr& msg)
             
             // 人回避中。回避が終わるまで待つ。
             // ここに人を回避するコードを書いてください。
+            // 一番近い待機ポイントに移動するようなコードはどうか？
             
             ROS_INFO("evasion end!");
         }

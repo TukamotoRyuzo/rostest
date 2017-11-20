@@ -35,23 +35,28 @@ MyRoboHead::MyRoboHead()
 
 void MyRoboHead::read(ros::Time time, ros::Duration period)
 {
-    if (cmd_[0] || cmd_[1])
-    {
-    	ROS_INFO_STREAM("Commands for joints: " << cmd_[0] << ", " << -cmd_[1]);
-    	
-        // 首モータへのシリアル通信
-        std_msgs::String msg;
-        msg.data = "CML30";    
-        pub.publish(msg);
-    }
+    char hn[2] = { 'H', 'N' };
+    
+    for (int i = 0; i < 2; i++)
+        if (cmd_[i])
+        {
+            std_msgs::String msg;
+            float angle = cmd_[0] * 180.0 / M_PI;
+            msg.data = "CML" + hn[i] + angle;    
+            pub.publish(msg);
+            
+            // 指令値を送ったらすぐに首が傾いたことにする。
+            pos_[i] += cmd_[i];
+        }
 }
 
 void MyRoboHead::write(ros::Time time, ros::Duration period)
 {
     // writeは頭の角度を教えなければならないがどうしようか。
     // マイコンから角度を取得することもできるみたいだが、readで指令値を送ってから何秒立ったかで角度を知ることもできる。
+    // Serviceでマイコンから角度をもらってもいいんですけどね
     /*
-    for (unsigned int i = 0; i < 2; ++i)
+    for (int i = 0; i < 2; ++i)
     {
         pos_[i] += yp_vel[i] * getPeriod().toSec();
         vel_[i] = yp_vel[i];
@@ -63,7 +68,7 @@ int main(int argc, char *argv[])
 {
     ros::init(argc, argv, "my_robo_head_control");
     ros::NodeHandle nh;
-    pub = nh.advertise<std_msgs::String>("neck_rotate", 10);
+    pub = nh.advertise<std_msgs::String>("robotics_cmd", 10);
     MyRoboHead myrobo;
     controller_manager::ControllerManager cm(&myrobo, nh);
 
