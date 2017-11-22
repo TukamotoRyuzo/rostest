@@ -1,5 +1,7 @@
 cmake_minimum_required(VERSION 2.8.3)
 project(my_robo_control)
+## Compile as C++11, supported in ROS Kinetic and newer
+add_compile_options(-std=c++11)
 find_package(catkin REQUIRED COMPONENTS
   controller_manager
   hardware_interface
@@ -27,18 +29,14 @@ include_directories(
   ${catkin_INCLUDE_DIRS}
 )
 
-add_executable(my_robo_control src/my_robo_control.cpp src/my_robo_hw.cpp)
-add_executable(head_control src/head_control.cpp)
-add_executable(my_robo_head_control src/my_robo_head_control.cpp)
+add_executable(my_robo_control src/my_robo_control.cpp)
+add_executable(head_control src/head_controller.cpp)
 
 target_link_libraries(my_robo_control
   ${catkin_LIBRARIES}
   ${ypspur_LIBRARIES}
 )
 target_link_libraries(head_control
-  ${catkin_LIBRARIES}
-)
-target_link_libraries(my_robo_head_control
   ${catkin_LIBRARIES}
 )
 

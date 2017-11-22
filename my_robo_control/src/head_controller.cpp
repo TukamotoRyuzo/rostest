@@ -31,28 +31,25 @@ int main(int argc, char **argv)
   target_joint1.data = 0;
   target_joint2.data = 0;
 
-  while (ros::ok()) { // このノードが使える間は無限ループ
-    char key;  // 入力キーの値
+  ros::Rate rate(5);
+  double add_radian_h = 3 * M_PI / 180.0;
+  double add_radian_n = 3 * M_PI / 180.0;
 
-    ROS_INFO("[Input] j: Joint1++, f: Joint1--, k: Joint2++, d:Joint2--");
-    cin >> key; 
-    cout << key << endl;
+  while (ros::ok())
+  {
+    target_joint1.data += add_radian_h;
+    target_joint2.data += add_radian_n;
+    
+    if (abs(target_joint1.data) > 20 * M_PI / 180.0)
+        add_radian_h = -add_radian_h;
+    if (abs(target_joint2.data) > 40 * M_PI / 180.0)
+        add_radian_n = -add_radian_n;
 
-    switch (key) {
-    case 'j': target_joint1.data += 5 * M_PI/180.0; break;
-    case 'f': target_joint1.data -= 5 * M_PI/180.0; break;
-    case 'k': target_joint2.data += 5 * M_PI/180.0; break;
-    case 'd': target_joint2.data -= 5 * M_PI/180.0; break;
-    default: ROS_INFO("Input j,f,k,d");
-    }
-      
-    pub_joint1.publish(target_joint1); // 角度を送信    
+    pub_joint1.publish(target_joint1);
     pub_joint2.publish(target_joint2);
+    ros::spinOnce();
     ROS_INFO("Targe: Joint1=%f Joint2=%f", target_joint1.data, target_joint2.data);
-
-    usleep(1000*1000); // 制御に時間がかかるので1秒寝て待つ
-    ros::spinOnce();   // コールバック関数を呼ぶ
-    ROS_INFO("Tmp:Joint1=%f Joint2=%f", tmp_joint1.data, tmp_joint2.data);
+    rate.sleep();
   }
   
   return 0;

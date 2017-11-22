@@ -20,28 +20,11 @@ public:
 private:
     hardware_interface::JointStateInterface    jnt_state_interface_;
     hardware_interface::VelocityJointInterface jnt_vel_interface_;
-    double cmd_[2];
-    double pos_[2];
-    double vel_[2];
-    double eff_[2];
-};
-
-class MyRoboHead : public hardware_interface::RobotHW
-{
-public:
-    MyRoboHead();
-    ros::Time getTime() const { return ros::Time::now(); }
-    ros::Duration getPeriod() const { return ros::Duration(0.01); }
-
-    void read(ros::Time time, ros::Duration period);
-    void write(ros::Time time, ros::Duration period);
-private:
-    hardware_interface::JointStateInterface    jnt_state_interface_;
-    hardware_interface::VelocityJointInterface jnt_vel_interface_;
-    double cmd_[2];
-    double pos_[2];
-    double vel_[2];
-    double eff_[2];
+    hardware_interface::EffortJointInterface jnt_eff_interface_;
+    double cmd_[4];
+    double pos_[4];
+    double vel_[4];
+    double eff_[4];
 };
 
 
