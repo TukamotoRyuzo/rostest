@@ -12,10 +12,12 @@ rosrun rviz rviz
 実機での起動は下記コマンドを実行すればできます。
 roslaunch robot_launcher setup_robot.launch  
 roslaunch my_robo_control control_real.launch  
-roslaunch my_robo_2dnav move_base.launch  
+roslaunch my_robo_2dnav move_base_c205.launch  
 roslaunch simple_goal_generator goal_generator.launch  
 rostopic pub -1 /table_number std_msgs/Int8 [テーブル番号]  
-もしくはrostopic pub -1 /my_robo/diff_drive_controller/cmd_vel geometry_msgs/Twist -- '[2.0, 0.0, 0.0]' '[0.0, 0.0, 1.8]'  
+もしくは  
+rostopic pub -1 /my_robo/diff_drive_controller/cmd_vel geometry_msgs/Twist -- '[2.0, 0.0, 0.0]' '[0.0, 0.0, 1.8]'  
+rostopic pub -1 /my_robo/robotics_cmd std_msgs/String 'CMNL30'  
 など  
 
 ## 構成

@@ -5,6 +5,14 @@
   <arg name="headless" default="false"/>
   <arg name="debug" default="false"/>
   
+  <!-- Robot pose -->
+  <arg name="x" default="0.0"/>
+  <arg name="y" default="1.0"/>
+  <arg name="z" default="0.0"/>
+  <arg name="roll" default="0"/>
+  <arg name="pitch" default="0"/>
+  <arg name="yaw" default="0"/>
+
   #部屋の3Dモデルを読み込む
   <include file="$(find my_robo_description)/launch/c205.launch">
   </include>
@@ -14,6 +22,7 @@
    
   #ロボットモデルをgazeboに召喚する
   <node name="urdf_spawner" pkg="gazebo_ros" type="spawn_model" respawn="false" output="screen"
-    args="-urdf -model my_robo -param robot_description"/>
- 
+    args="-urdf -model my_robo -param robot_description
+          -x $(arg x) -y $(arg y) -z $(arg z)
+          -R $(arg roll) -P $(arg pitch) -Y $(arg yaw)"/>
 </launch>

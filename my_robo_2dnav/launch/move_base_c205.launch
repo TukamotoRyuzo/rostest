@@ -1,5 +1,8 @@
 <launch>
     <include file="$(find my_robo_2dnav)/launch/move_base.launch">
         <arg name="map_file" value="$(find my_robo_2dnav)/map/C205/map.yaml"/> 
+        <arg name="x" value="-0.7"/> 
+        <arg name="y" value="1.9"/>         
+        <arg name="a" value="0.27"/>         
     </include>
 </launch>

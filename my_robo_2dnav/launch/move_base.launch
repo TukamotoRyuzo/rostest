@@ -2,7 +2,10 @@
   <master auto="start"/>
   <arg name="laser" default="/scan"/>
   <arg name="cmd_vel" default="/my_robo/diff_drive_controller/cmd_vel"/>
-
+  <arg name="x" default="0.0"/>
+  <arg name="y" default="0.0"/>
+  <arg name="a" default="0.0"/> <!-- yaw -->
+  
   <!-- Run the map server -->
   #マップサーバを開始する
   <arg name="map_file" default="$(find my_robo_2dnav)/map/willow_garage/map.yaml"/>
@@ -41,6 +44,11 @@
     <param name="resample_interval" value="1"/>
     <param name="recovery_alpha_slow" value="0.0"/>
     <param name="recovery_alpha_fast" value="0.0"/>
+    
+    <!-- set initial pose -->
+    <param name="initial_pose_x" value="$(arg x)"/>
+    <param name="initial_pose_y" value="$(arg y)"/>
+    <param name="initial_pose_a" value="$(arg a)"/>
   </node>
  
   #move_baseはcmd_velトピックを出すが、diff_drive_controller用に/my_robo/diff_drive_controller/cmd_velという名前のトピックに変更している
