@@ -7,6 +7,7 @@
 #include <ypspur.h>
 #include <string>
 #include <std_msgs/String.h>
+
 ros::Publisher pub;
 
 int MyRobo::open() const
@@ -60,11 +61,11 @@ MyRobo::MyRobo()
     
     jnt_vel_interface_.registerHandle(vel_handle_1);
     jnt_vel_interface_.registerHandle(vel_handle_2);
-    jnt_eff_interface_.registerHandle(eff_handle_1);
-    jnt_eff_interface_.registerHandle(eff_handle_2);
+    jnt_pos_interface_.registerHandle(eff_handle_1);
+    jnt_pos_interface_.registerHandle(eff_handle_2);
 
     registerInterface(&jnt_vel_interface_); 
-    registerInterface(&jnt_eff_interface_);
+    registerInterface(&jnt_pos_interface_);
     
     if (open() < 0)
         ROS_ERROR("cannot open spur.\n");
@@ -82,18 +83,43 @@ void MyRobo::read(ros::Time time, ros::Duration period)
     	
     int ret = YP_wheel_vel(cmd_[0], -cmd_[1]);
     
-    std::string hn[2] = { "CMH", "CML" };
+    std::string hn[2] = { "CMH", "CMN" };
+    std::string rl[2][2] = { { "U", "D" }, { "R", "L" } };
     
-    for (int i = 2; i < 4; i++)
+    for (int i = 2; i < 3; i++)
         if (cmd_[i])
         {
+            // cmdは絶対角度で示された目標値(radian)
+            // この値から何度回転するべきかを求める。つまりdiffラジアンだけ回転させる。
+            double diff = cmd_[i] - pos_[i];
+      
+            if (int(diff * 180.0 / M_PI) == 0)
+                continue;
+ 
+            int angle = cmd_[i] * 180.0 / M_PI;
+
             std_msgs::String msg;
-            float angle = cmd_[i] * 180.0 / M_PI;
-            msg.data = hn[i-2] + std::to_string(angle);    
+            std::string dir;
+            
+            if (angle < 0)
+            {
+                angle = -angle;
+                dir = rl[i-2][1];
+            }
+            else
+            {
+                dir = rl[i-2][0];
+            }
+            
+            
+            int a = angle;
+            std::string out = hn[i-2] + dir + std::to_string(angle);    
+            msg.data = hn[i-2] + dir + std::to_string(a);    
+            std::cout << out << std::endl;
             pub.publish(msg);
             
             // 指令値を送ったらすぐに首が傾いたことにする。
-            pos_[i] += cmd_[i];
+            pos_[i] += diff;
         }
 }
 

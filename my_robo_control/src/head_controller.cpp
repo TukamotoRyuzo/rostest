@@ -31,18 +31,18 @@ int main(int argc, char **argv)
   target_joint1.data = 0;
   target_joint2.data = 0;
 
-  ros::Rate rate(5);
-  double add_radian_h = 3 * M_PI / 180.0;
-  double add_radian_n = 3 * M_PI / 180.0;
+  ros::Rate rate(1.0);
+  double add_radian_h = 5 * M_PI / 180.0;
+  double add_radian_n = 5 * M_PI / 180.0;
 
   while (ros::ok())
   {
     target_joint1.data += add_radian_h;
     target_joint2.data += add_radian_n;
     
-    if (abs(target_joint1.data) > 20 * M_PI / 180.0)
+    if (abs(target_joint1.data) >= 10 * M_PI / 180.0)
         add_radian_h = -add_radian_h;
-    if (abs(target_joint2.data) > 40 * M_PI / 180.0)
+    if (abs(target_joint2.data) >= 30 * M_PI / 180.0)
         add_radian_n = -add_radian_n;
 
     pub_joint1.publish(target_joint1);

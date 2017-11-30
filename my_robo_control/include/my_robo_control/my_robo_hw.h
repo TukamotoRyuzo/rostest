@@ -20,7 +20,7 @@ public:
 private:
     hardware_interface::JointStateInterface    jnt_state_interface_;
     hardware_interface::VelocityJointInterface jnt_vel_interface_;
-    hardware_interface::EffortJointInterface jnt_eff_interface_;
+    hardware_interface::PositionJointInterface jnt_pos_interface_;
     double cmd_[4];
     double pos_[4];
     double vel_[4];
