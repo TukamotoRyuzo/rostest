@@ -4,13 +4,21 @@ my_robo:
     publish_rate: 50
  
   head_position_controller: 
+<<<<<<< HEAD
     type: "velocity_controllers/JointPositionController"
+=======
+    type: "position_controllers/JointPositionController"
+>>>>>>> 9de5610147b1f8d41a7f0742a48cf70de43aa1ed
     joint: 'head_joint'
     pid: {p: 100.0, i: 0.01, d: 10.0}
     publish_rate: 50.0               # default: 50
     
   neck_position_controller: 
+<<<<<<< HEAD
     type: "velocity_controllers/JointPositionController"
+=======
+    type: "position_controllers/JointPositionController"
+>>>>>>> 9de5610147b1f8d41a7f0742a48cf70de43aa1ed
     joint: 'neck_joint'
     pid: {p: 100.0, i: 0.01, d: 10.0}
     publish_rate: 50.0               # default: 50

@@ -6,7 +6,7 @@
   <property name="fw"  value="0.660"/>
   <property name="fh"  value="0.010"/>
   <property name="fd"  value="0.330"/>
-  <property name="foot_mass" value="1.0"/>
+  <property name="foot_mass" value="3.0"/>
   <property name="foot_ixx" value="${1.0/12.0*foot_mass*(fw*fw+fh*fh)}"/>
   <property name="foot_iyy" value="${1.0/12.0*foot_mass*(fh*fh+fd*fd)}"/>
   <property name="foot_izz" value="${1.0/12.0*foot_mass*(fw*fw+fd*fd)}"/>
@@ -18,7 +18,7 @@
   <property name="bx"  value="${-fw/4}"/>
   <property name="by"  value="0"/>
   <property name="bz"  value="${fh/2+bh/2}"/>
-  <property name="base_mass" value="1.0"/>
+  <property name="base_mass" value="30.0"/>
   <property name="base_ixx" value="${1.0/12.0*base_mass*(bw*bw+bh*bh)}"/>
   <property name="base_iyy" value="${1.0/12.0*base_mass*(bh*bh+bd*bd)}"/>
   <property name="base_izz" value="${1.0/12.0*base_mass*(bw*bw+bd*bd)}"/>
@@ -61,7 +61,7 @@
   <property name="hx" value="0"/>
   <property name="hy" value="0"/>
   <property name="hz" value="${nh/2.0+hh/2.0}"/>
-  <property name="head_mass" value="1.0"/>
+  <property name="head_mass" value="4.0"/>
   <property name="head_ixx" value="${1.0/12.0*head_mass*(hw*hw+hh*hh)}"/>
   <property name="head_iyy" value="${1.0/12.0*head_mass*(hh*hh+hd*hd)}"/>
   <property name="head_izz" value="${1.0/12.0*head_mass*(hw*hw+hd*hd)}"/>
@@ -131,12 +131,12 @@
     </inertial>
   </link>
 
-  <joint name="neck_joint" type="revolute">
+  <joint name="neck_joint" type="continuous">
     <parent link="base_link"/>
     <child link="neck_link"/>
     <origin rpy="0 0 0" xyz="${nx} ${ny} ${nz}"/>
     <axis xyz="0 0 1"/>
-    <limit lower="${-M_PI/180.0*40.0}" upper="${M_PI/180.0*40.0}" effort="0.5293" velocity="6.159937255"/>
+    <limit lower="${-M_PI/180.0*40.0}" upper="${M_PI/180.0*40.0}" effort="100.0" velocity="100.0"/>
   </joint>
   
   <!-- head_link -->
@@ -160,12 +160,12 @@
     </inertial>
   </link>
 
-  <joint name="head_joint" type="revolute">
+  <joint name="head_joint" type="continuous">
     <parent link="neck_link"/>
     <child link="head_link"/>
     <origin rpy="0 0 0" xyz="${hx} ${hy} ${hz}"/>
     <axis xyz="0 1 0"/>
-    <limit lower="${-M_PI/180.0*20.0}" upper="${M_PI/180.0*20.0}" effort="0.5293" velocity="6.159937255"/>
+    <limit lower="${-M_PI/180.0*20.0}" upper="${M_PI/180.0*20.0}" effort="100.0" velocity="100.0"/>
   </joint>
 
   <!-- wheel -->
