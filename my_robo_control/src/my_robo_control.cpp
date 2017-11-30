@@ -60,11 +60,11 @@ MyRobo::MyRobo()
     
     jnt_vel_interface_.registerHandle(vel_handle_1);
     jnt_vel_interface_.registerHandle(vel_handle_2);
-    jnt_eff_interface_.registerHandle(eff_handle_1);
-    jnt_eff_interface_.registerHandle(eff_handle_2);
+    jnt_pos_interface_.registerHandle(eff_handle_1);
+    jnt_pos_interface_.registerHandle(eff_handle_2);
 
     registerInterface(&jnt_vel_interface_); 
-    registerInterface(&jnt_eff_interface_);
+    registerInterface(&jnt_pos_interface_);
     
     if (open() < 0)
         ROS_ERROR("cannot open spur.\n");
