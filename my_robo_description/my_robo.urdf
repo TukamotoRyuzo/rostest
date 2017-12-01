@@ -2,7 +2,7 @@
 <robot name="my_robo" >
   <property name="M_PI" value="3.14159274"/>
   
-  <!-- footprint -->
+  <!-- foot -->
   <property name="fw"  value="0.660"/>
   <property name="fh"  value="0.010"/>
   <property name="fd"  value="0.330"/>
@@ -67,19 +67,7 @@
   <property name="head_izz" value="${1.0/12.0*head_mass*(hw*hw+hd*hd)}"/>
   
   <!-- footprint -->
-  <link name="base_footprint">
-    <visual>
-      <geometry>
-        <box size="${fw} ${fd} ${fh}"/>
-      </geometry>
-    </visual>
- 
-    <collision>
-      <geometry>
-        <box size="${fw} ${fd} ${fh}"/>
-      </geometry>
-    </collision>
-  </link>
+  <link name="base_footprint"/>
   
   <!-- base_link -->
   <link name="base_link">
@@ -100,16 +88,35 @@
       <mass value="${base_mass}"/>
       <inertia ixx="${base_ixx}" ixy="0" ixz="0" iyy="${base_iyy}" iyz="0" izz="${base_izz}"/>
     </inertial>
-    
   </link>
   
   <joint name="base_link_joint" type="fixed">
     <parent link="base_footprint"/>
     <child link="base_link"/>
-    <origin xyz="${bx} ${by} ${bz}"/>
+    <origin xyz="0 0 0"/>
   </joint>
   
+  <!-- foot -->
+  <link name="foot_link">
+    <visual>
+      <geometry>
+        <box size="${fw} ${fd} ${fh}"/>
+      </geometry>
+    </visual>
+ 
+    <collision>
+      <geometry>
+        <box size="${fw} ${fd} ${fh}"/>
+      </geometry>
+    </collision>
+  </link>
   
+  <joint name="foot_joint" type="fixed">
+    <parent link="base_link"/>
+    <child link="foot_link"/>
+    <origin xyz="${-bx} ${-by} ${-bz}"/>
+  </joint>
+
   <!-- neck_link -->
   <link name="neck_link">
     <visual>
@@ -254,7 +261,7 @@
   </link>
  
   <joint name="caster_joint" type="fixed">
-    <parent link="base_footprint"/>
+    <parent link="foot_link"/>
     <child link="caster_link"/>
     <origin xyz="${cx} ${cy} ${-cz}"/>
   </joint>

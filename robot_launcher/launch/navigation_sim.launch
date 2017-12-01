@@ -7,6 +7,14 @@
     <arg name="pkg" value="my_robo_2dnav" />
     <arg name="file" value="move_base_c205.launch" />
     <arg name="value" value="initial_pose_x:=0.0 initial_pose_y:=0.0" />
-    <arg name="node_name" value="timed_roslaunch" /> <!-- This is optional jBrgment -->
+    <arg name="node_name" value="s" /> <!-- This is optional jBrgment -->
+  </include>
+  
+    <!-- delay until launch gazebo -->
+  <include file="$(find timed_roslaunch)/launch/timed_roslaunch.launch">
+    <arg name="time" value="10" />
+    <arg name="pkg" value="my_robo_control" />
+    <arg name="file" value="run.launch" />
+    <arg name="node_name" value="a" /> <!-- This is optional jBrgment -->
   </include>
 </launch>
