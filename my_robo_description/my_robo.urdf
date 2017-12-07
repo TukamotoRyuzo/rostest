@@ -50,9 +50,9 @@
   <property name="ny" value="0"/>
   <property name="nz" value="${bh/2.0+nh/2.0}"/>
   <property name="neck_mass" value="1.0"/>
-  <property name="neck_ixx" value="${1.0/12.0*head_mass*(nw*nw+nh*nh)}"/>
-  <property name="neck_iyy" value="${1.0/12.0*head_mass*(nh*nh+nd*nd)}"/>
-  <property name="neck_izz" value="${1.0/12.0*head_mass*(nw*nw+nd*nd)}"/>
+  <property name="neck_ixx" value="${1.0/12.0*neck_mass*(nw*nw+nh*nh)}"/>
+  <property name="neck_iyy" value="${1.0/12.0*neck_mass*(nh*nh+nd*nd)}"/>
+  <property name="neck_izz" value="${1.0/12.0*neck_mass*(nw*nw+nd*nd)}"/>
 
   <!-- head -->
   <property name="hd"  value="0.310"/>
@@ -202,7 +202,7 @@
   <joint name="left_wheel_joint" type="continuous">
     <parent link="base_link"/>
     <child link="left_wheel_link"/>
-    <origin rpy="-1.5707 0 0" xyz="${wx} ${-wy} ${-wz}"/>
+    <origin rpy="${-M_PI/2} 0 0" xyz="${wx} ${wy} ${-wz}"/>
     <axis xyz="0 0 1"/>
   </joint>
  
@@ -232,7 +232,7 @@
   <joint name="right_wheel_joint" type="continuous">
     <parent link="base_link"/>
     <child link="right_wheel_link"/>
-    <origin rpy="1.5707 0 0" xyz="${wx} ${wy} ${-wz}"/>
+    <origin rpy="${M_PI/2} 0 0" xyz="${wx} ${-wy} ${-wz}"/>
     <axis xyz="0 0 -1"/>
   </joint>
  

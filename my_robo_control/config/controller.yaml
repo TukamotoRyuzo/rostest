@@ -28,7 +28,14 @@ my_robo:
     # URDF if not specified as a parameter
     # (If controller trying to read from a URDF file, we don't need to define values here?)
     # (but comment out this, navigation does not work.)
-    wheel_separation : 0.3547
+    # wheel_separation : 0.44
+    # wheel_separation : 0.435
+    # wheel_separation : 0.4375
+    # wheel_separation : 0.43625
+    # wheel_separation : 0.436875
+    # wheel_separation : 0.4371875
+    # wheel_separation : 0.43734375
+    wheel_separation : 0.437265625
     wheel_radius : 0.085
  
     # Wheel separation and radius multipliers
