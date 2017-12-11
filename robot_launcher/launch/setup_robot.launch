@@ -5,7 +5,7 @@
     
     <!-- launch ypspur-coordinator -->
     <node pkg="robot_launcher" type="ypspur_coordinator.sh" name="ypspur_coordinator"
-          args="$(find robot_launcher)/ypspur_params/yp-h28ki.param"/>
+          args="$(find robot_launcher)/ypspur_params/yp-h29ki-3600-1.param"/>
 
     <!-- You can adjust the pose of laser-rangefinder here. Order of values: x y z yaw pitch roll. -->
   	<node pkg="tf" type="static_transform_publisher" name="laser_transform" args="$(optenv laserpos 0.2 0 0 0 0 0) base_link laser 100" />

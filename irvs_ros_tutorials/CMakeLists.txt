@@ -16,7 +16,6 @@ generate_messages(DEPENDENCIES std_msgs)
 
 ##インクルードディレクトリ、ライブラリ、catkinビルド、システムに依存するパッケージの指定
 catkin_package(
-INCLUDE_DIRS include
 LIBRARIES irvs_ros_tutorials
 CATKIN_DEPENDS roscpp std_msgs
 DEPENDS system_lib
