@@ -1,23 +1,17 @@
 <launch>
   <arg name="model" default="$(find my_robo_description)/my_robo.urdf"/>
   
-  #urdfファイルの中身をパラメータに登録する
   <param name="robot_description" command="$(find xacro)/xacro.py $(arg model)"/>
    
   <!-- Load joint controller configurations from YAML file to parameter server -->
-  #joint controller定義をパラメータに登録する
   <rosparam file="$(find my_robo_control)/config/controller.yaml" command="load"/>
  
   <!-- load the controllers -->
-  #コントローラを読み込む
   <node name="controller_spawner" pkg="controller_manager"
         type="spawner" ns="my_robo" output="screen"
         args="joint_state_controller diff_drive_controller head_position_controller neck_position_controller"/>
  
   <!-- convert joint states to TF transforms for rviz, etc -->
-  #rvizやその他のためにjoint statesをTF transformsに変換する。
   <node name="robot_state_publisher" pkg="robot_state_publisher"
-        type="robot_state_publisher" respawn="false" output="screen" ns="/my_robo">
-  </node>
- 
+        type="robot_state_publisher" respawn="false" output="screen" ns="/my_robo"/>
 </launch>

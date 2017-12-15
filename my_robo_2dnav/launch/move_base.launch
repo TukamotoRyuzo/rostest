@@ -7,11 +7,9 @@
   <arg name="a" default="0.0"/> <!-- yaw -->
   
   <!-- Run the map server -->
-  #マップサーバを開始する
   <arg name="map_file" default="$(find my_robo_2dnav)/map/willow_garage/map.yaml"/>
   <node name="map_server" pkg="map_server" type="map_server" args="$(arg map_file)" />
  
-  #AMCLを開始する
   <!--- Run AMCL -->
   <!--<include file="$(find amcl)/examples/amcl_diff.launch" />-->
   <node pkg="amcl" type="amcl" name="amcl" output="screen" args="/scan:=$(arg laser)">

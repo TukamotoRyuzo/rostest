@@ -1,5 +1,11 @@
 <launch>
-  <include file="$(find my_robo_description)/launch/willow.launch">
-    <arg name="world" value="C205_strict.world"/> 
+  <include file="$(find my_robo_description)/launch/gazebo.launch">
+    <arg name="world" value="C205_strict.world"/>
+    <arg name="x" value="1.55"/>
+    <arg name="y" value="1.2"/>
+    <arg name="z" value="1.0"/>
+    <arg name="roll" value="0"/>
+    <arg name="pitch" value="0"/>
+    <arg name="yaw" value="0"/>
   </include>
 </launch>
