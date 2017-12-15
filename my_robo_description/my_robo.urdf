@@ -12,10 +12,10 @@
   <property name="base_izz" value="${1.0/12.0*base_mass*(bw*bw+bd*bd)}"/>
   
   <!-- foot -->
-  <property name="fd"  value="${bd*2}"/>
+  <property name="fd"  value="0.626"/>
   <property name="fw"  value="${bw}"/>
   <property name="fh"  value="0.010"/>
-  <property name="fx"  value="${bd/2}"/>
+  <property name="fx"  value="${bd/2-(bd-fd/2)}"/>
   <property name="fy"  value="0"/>
   <property name="fz"  value="${-fh/2-bh/2}"/>
   <property name="foot_mass" value="3.0"/>
@@ -23,19 +23,19 @@
   <property name="foot_iyy" value="${1.0/12.0*foot_mass*(fh*fh+fd*fd)}"/>
   <property name="foot_izz" value="${1.0/12.0*foot_mass*(fw*fw+fd*fd)}"/>
    
-  <!-- wheel -->
+  <!-- wheel (parent frame: foot_link) -->
   <property name="wr" value="0.085"/>
-  <property name="wl" value="0.0325"/>
-  <property name="wx" value="${-bd/4.0}"/>
-  <property name="wy" value="${bw/2.0+wl+0.005}"/>
-  <property name="wz" value="${bh/2.0-(wr-cr*2)+0.01}"/>
+  <property name="wl" value="0.056"/>
+  <property name="wx" value="${-fd/2.0+wr}"/>
+  <property name="wy" value="${fw/2.0+0.018+wl/2.0}"/>
+  <property name="wz" value="${0.112-wr}"/>
   <property name="wheel_mass" value="1.5"/>
   <property name="wheel_ixx" value="${1.0/12.0*wheel_mass*(3.0*wr*wr+wl*wl)}"/>
   <property name="wheel_iyy" value="${1.0/12.0*wheel_mass*(3.0*wr*wr+wl*wl)}"/>
   <property name="wheel_izz" value="${1.0/2.0*wheel_mass*wr*wr}"/>
 
   <!-- caster -->
-  <property name="cr" value="0.05"/>
+  <property name="cr" value="0.056"/>
   <property name="cx" value="${fd/8.0*3.0}"/>
   <property name="cy" value="0"/>
   <property name="cz" value="${fh/2.0+cr}"/>
@@ -55,8 +55,8 @@
   <property name="neck_izz" value="${1.0/12.0*neck_mass*(nw*nw+nd*nd)}"/>
 
   <!-- head -->
-  <property name="hd"  value="0.310"/>
-  <property name="hw"  value="0.330"/>
+  <property name="hd" value="0.310"/>
+  <property name="hw" value="0.330"/>
   <property name="hh" value="0.03"/>
   <property name="hx" value="0"/>
   <property name="hy" value="0"/>
@@ -200,7 +200,7 @@
   </link>
  
   <joint name="left_wheel_joint" type="continuous">
-    <parent link="base_link"/>
+    <parent link="foot_link"/>
     <child link="left_wheel_link"/>
     <origin rpy="${-M_PI/2} 0 0" xyz="${wx} ${wy} ${-wz}"/>
     <axis xyz="0 0 1"/>
@@ -230,7 +230,7 @@
   </link>
  
   <joint name="right_wheel_joint" type="continuous">
-    <parent link="base_link"/>
+    <parent link="foot_link"/>
     <child link="right_wheel_link"/>
     <origin rpy="${M_PI/2} 0 0" xyz="${wx} ${-wy} ${-wz}"/>
     <axis xyz="0 0 -1"/>
