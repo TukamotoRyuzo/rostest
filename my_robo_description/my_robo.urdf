@@ -23,6 +23,18 @@
   <property name="foot_iyy" value="${1.0/12.0*foot_mass*(fh*fh+fd*fd)}"/>
   <property name="foot_izz" value="${1.0/12.0*foot_mass*(fw*fw+fd*fd)}"/>
    
+  <!-- tail (parent frame: foot_link) -->
+  <property name="td"  value="0.250"/>
+  <property name="tw"  value="0.250"/>
+  <property name="th"  value="0.010"/>
+  <property name="tx"  value="${-fd/2-td/2}"/>
+  <property name="ty"  value="0"/>
+  <property name="tz"  value="0"/>
+  <property name="tail_mass" value="3.0"/>
+  <property name="tail_ixx" value="${1.0/12.0*tail_mass*(fw*fw+fh*fh)}"/>
+  <property name="tail_iyy" value="${1.0/12.0*tail_mass*(fh*fh+fd*fd)}"/>
+  <property name="tail_izz" value="${1.0/12.0*tail_mass*(fw*fw+fd*fd)}"/>
+   
   <!-- wheel (parent frame: foot_link) -->
   <property name="wr" value="0.085"/>
   <property name="wl" value="0.056"/>
@@ -115,6 +127,27 @@
     <parent link="base_link"/>
     <child link="foot_link"/>
     <origin xyz="${fx} ${fy} ${fz}"/>
+  </joint>
+  
+  <!-- tail -->
+  <link name="tail_link">
+    <visual>
+      <geometry>
+        <box size="${td} ${tw} ${th}"/>
+      </geometry>
+    </visual>
+ 
+    <collision>
+      <geometry>
+        <box size="${td} ${tw} ${th}"/>
+      </geometry>
+    </collision>
+  </link>
+  
+  <joint name="tail_joint" type="fixed">
+    <parent link="foot_link"/>
+    <child link="tail_link"/>
+    <origin xyz="${tx} ${ty} ${tz}"/>
   </joint>
 
   <!-- neck_link -->

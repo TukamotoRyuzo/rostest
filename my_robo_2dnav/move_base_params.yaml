@@ -5,3 +5,7 @@ planner_frequency: 0.0
 shutdown_costmaps: true 
 oscillation_timeout: 10.0
 oscillation_distance: 0.2
+yaw_goal_tolerance: 0.1
+xy_goal_tolerance: 0.1
+#  heading_scoring: true
+#  dwa: true
