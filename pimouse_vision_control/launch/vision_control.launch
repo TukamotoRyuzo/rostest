@@ -8,7 +8,7 @@
 
   <node pkg="mjpeg_server" name="mjpeg_server" type="mjpeg_server" >
     <param name="port" value="10000" />
-  </node>   
+  </node>
             
-  <node pkg="pimouse_vision_control" name="face_to_face" type="face_to_face.py" output="screen" />
+  <node pkg="pimouse_vision_control" name="test_to_face" type="test_to_face.py" output="screen" />
 </launch>

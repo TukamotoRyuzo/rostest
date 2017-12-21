@@ -8,10 +8,7 @@
 //イルのヘッダーをインクルードする。
 #include "irvs_ros_tutorials/msgTutorial.h"
 #include "std_msgs/String.h"
-#include "std_msgs/Int16.h"
-
-
-
+#include "std_msgs/Int8.h"
 
 ros::Publisher twist_pub;
 //メッセージを受信したときに動作するコールバック関数を定義
@@ -24,36 +21,29 @@ int before_wave_left2 = 0;
 void msgCallback(const std_msgs::String::ConstPtr& msg)//ここ変更
 {
 	
-int distance;
-
+    int distance;
 	int limit = 5;
-
-
-
 	int count =0;
 	int danger_distance = 3; //ここ変更
 	int signal = 1; //ここ変更
-	std_msgs::Int16 Int16;
+	std_msgs::Int8 Int8;
 	char wave_right[4];
 	char wave_left[4];
 	int wave_right2;
 	int wave_left2;
-
-	
 	
 	wave_right[3] = '\0';
 	wave_left[3] = '\0';
 
 	int i = 0;
-	
 	char test[30];
 	strcpy(test,msg->data.c_str());
 	std::stringstream ss;
 	ss << msg->data.c_str() << count;
 
-//受信したメッセージを表示する。
-ROS_INFO("recieve msg_ddd: %s", msg->data.c_str());
-ROS_INFO("recieve msg_ss: %s", test);
+    //受信したメッセージを表示する。
+    ROS_INFO("recieve msg_ddd: %s", msg->data.c_str());
+    ROS_INFO("recieve msg_ss: %s", test);
 	
 	if(test[0] == 'S')
 	{
@@ -78,7 +68,6 @@ ROS_INFO("recieve msg_ss: %s", test);
 		   before_wave_right2 < wave_right2 - limit || before_wave_left2 < wave_left2 - limit)
 		{
 			printf("over\n");		
-
 		}
 
 		else
@@ -86,55 +75,48 @@ ROS_INFO("recieve msg_ss: %s", test);
 			if(before_wave_right2 > wave_right2 + 1 || before_wave_left2 > wave_left2 + 1)
 			{
 				printf("stop_wave\n");
-				Int16.data = 6;
-				twist_pub.publish(Int16);		
+				Int8.data = 6;
+				twist_pub.publish(Int8);		
 			}
 			printf("before_right = %d\n",before_wave_right2);
 			printf("before_left = %d\n",before_wave_left2);
 			before_wave_right2 = wave_right2;
 			before_wave_left2 = wave_left2;
-
 		}
 		
-
-
 		if (test[7] == '1')
 		{
 			printf("stop\n");
-			Int16.data = 1;
-			twist_pub.publish(Int16);
+			Int8.data = 1;
+			twist_pub.publish(Int8);
 			
 		}
 		if (test[8] == '1')
 		{
 			printf("shutdown\n");
-			Int16.data = 2;
-			twist_pub.publish(Int16);
-			
+			Int8.data = 2;
+			twist_pub.publish(Int8);			
 		}
 
 		if (test[9] == 'H')
 		{
 			printf("high\n");
-			Int16.data = 3;
-			twist_pub.publish(Int16);
-			
+			Int8.data = 3;
+			twist_pub.publish(Int8);			
 		}
 
 		else if (test[9] == 'M')
 		{
 			printf("middle\n");
-			Int16.data = 4;
-			twist_pub.publish(Int16);
-			
+			Int8.data = 4;
+			twist_pub.publish(Int8);			
 		}
 
 		else if (test[9] == 'L')
 		{
 			printf("low\n");
-			Int16.data = 5;
-			twist_pub.publish(Int16);
-			
+			Int8.data = 5;
+			twist_pub.publish(Int8);			
 		}
 	}
 	else
@@ -143,36 +125,25 @@ ROS_INFO("recieve msg_ss: %s", test);
 	}
 }
 
-
-
 //購読者ノードのメイン関数
 int main(int argc, char **argv)
 {
 	printf("init\n");
-//ノード名の初期化
-ros::init(argc, argv, "sensor_subscriber");
-// ROSシステムとの通信のためのノードのハンドルを宣言
-ros::NodeHandle nh;
-//購読者ノードの宣言
-// irvs_ros_tutorialsパッケージのmsgTutorialメッセージファイルを
-//利用した購読者ros_tutorial_subを宣言する。
-//トピック名をros_tutorial_msgとし、購読者キュー( queue )の
-//サイズを100に設定する。
-//購読者キューには、配信者から送信されてくるメッセージが蓄積される。
-
-//ros::Subscriber ros_tutorial_sub = nh.subscribe("ros_tutorial_msg",
-//100, msgCallback);
+    //ノード名の初期化
+    ros::init(argc, argv, "sensor_subscriber");
+    // ROSシステムとの通信のためのノードのハンドルを宣言
+    ros::NodeHandle nh;
 
 	printf("init2\n");
 
-ros::Subscriber ros_tutorial_sub = nh.subscribe("robotic_cmd",100, msgCallback);
+    ros::Subscriber ros_tutorial_sub = nh.subscribe("robotic_cmd",100, msgCallback);
 
-printf("init3\n");
+    printf("init3\n");
 
-twist_pub = nh.advertise<std_msgs::Int16>("/emergency_call", 1);
+    twist_pub = nh.advertise<std_msgs::Int8>("/emergency_call", 1);
 
-//メッセージが受信されるまで待機し、受信が行われた場合、
-//コールバック関数を実行する。
-ros::spin();
-return 0;
+    //メッセージが受信されるまで待機し、受信が行われた場合、
+    //コールバック関数を実行する。
+    ros::spin();
+    return 0;
 }

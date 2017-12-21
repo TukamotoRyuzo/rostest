@@ -1,0 +1,13 @@
+<launch>
+    <include file="$(find pimouse_vision_control)/launch/vision_control.launch"/>
+    
+    <!-- TCP server for tablet to ros connection -->
+	<node pkg="android" type="Android_server" name="android_communication" output="screen" args="8090"/>
+	
+	<!-- ojigi -->
+	<node pkg="irvs_ros_tutorials" type="subscriber_face2" name="subscriber_face2" output="screen"/>
+	
+	<!-- sensor monitor -->
+	<node pkg="irvs_ros_tutorials" type="sensor_subscriber" name="sensor_subscriber" output="screen"/>
+</launch>
+

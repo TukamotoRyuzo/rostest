@@ -5,7 +5,7 @@
 #include <string.h>     /* for memset() */
 #include <unistd.h>     /* for close() */
 #include "ros/ros.h"
-#include "std_msgs/Int16.h"
+#include "std_msgs/Int8.h"
 
 #include <thread>
 
@@ -21,6 +21,7 @@ ros::Publisher twist_pub;
 void DieWithError(char *errorMessage)  /* Error handling function */
 {
 	printf(errorMessage);
+
 	exit(0);
 }
 
@@ -33,6 +34,7 @@ void func(int func_argc,unsigned short echoServPort){
 	unsigned int echoStringLen;
 	char *echoString;
 
+	std_msgs::Int8 Int8;
 
 	int send_msg2 = 1;
 	char test_recv[1] = {0,};
@@ -87,7 +89,7 @@ void func(int func_argc,unsigned short echoServPort){
 	}
 
 	printf("echoServPort=%d\n",echoServPort);
-
+	printf("accept clntSock = %d\n",clntSock);
 
 
 	//while(ros::ok())
@@ -97,14 +99,20 @@ void func(int func_argc,unsigned short echoServPort){
 		if(recv(clntSock,test_recv,4,0) <= 0 )
 			DieWithError((char*)"accept");
 
+		printf("recv clntSock = %d\n",clntSock);
+
 		printf("test_recv2: %d\n", test_recv[0]);
+
+		Int8.data = test_recv[0];
+		twist_pub.publish(Int8);
+
 		sleep(1);	
 	}
 }
 
 
 
-void msgCallback(const std_msgs :: Int16 :: ConstPtr & msg)
+void msgCallback(const std_msgs :: Int8 :: ConstPtr & msg)
 {
 	ROS_INFO("recieve msg = %d",msg->data);
 	int send_msg = msg->data;
@@ -116,21 +124,22 @@ void msgCallback(const std_msgs :: Int16 :: ConstPtr & msg)
 	else
 	{
 
-		if( send( clntSock, &send_msg, 4, 0 ) < 0 )
+		if( send( clntSock, &send_msg, 1, 0 ) < 0 )
+//		if( send( clntSock, &send_msg2, 4, 0 ) < 0 )
 					DieWithError( "send() error" );
 	}
+	printf("send clntSock = %d\n",clntSock);
 	printf("subscribe end\n");
 }
 
-void HandleTCPClient(int clntSocket);   /* TCP client handling function */
 
 int main(int argc, char *argv[])
 {
     ros::init(argc, argv, "android_communication");
     ros::NodeHandle nh;
-    std_msgs::Int16 Int16;
+    std_msgs::Int8 Int8;
     
-    twist_pub = nh.advertise<std_msgs::Int16>("/android", 1);
+    twist_pub = nh.advertise<std_msgs::Int8>("/android", 1);
 
 	unsigned short Port;
 	if (argc != 2)    
@@ -143,7 +152,7 @@ int main(int argc, char *argv[])
     printf("Port=%d\n",Port);
 
 	std::thread th(func, argc, Port);
-//	ros::Subscriber ros_tutorial_sub = nh.subscribe("/android_communication",1, msgCallback);
+	ros::Subscriber ros_tutorial_sub = nh.subscribe("/android_communication",1, msgCallback);
  //   std::thread th(func, argc, *argv);
 	
 	
@@ -152,13 +161,13 @@ int main(int argc, char *argv[])
     while (ros::ok()) 
 
     {
-	ros::Subscriber ros_tutorial_sub = nh.subscribe("/android_communication",1, msgCallback);
+//	ros::Subscriber ros_tutorial_sub = nh.subscribe("/android_communication",1, msgCallback);
 //	printf("test_recv_main: %s\n", test_recv[0]);
 
 
 //        printf("Handling client %s\n", inet_ntoa(echoClntAddr.sin_addr));
-/*	Int16.data = test_recv[0];
-	twist_pub.publish(Int16);
+/*	Int8.data = test_recv[0];
+	twist_pub.publish(Int8);
 */
 
 	rate.sleep();
