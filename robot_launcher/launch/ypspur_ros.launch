@@ -1,0 +1,4 @@
+<launch>
+	<node pkg="ypspur_ros" type="ypspur_ros" name="ypspur_ros" output="screen"/>
+</launch>
+

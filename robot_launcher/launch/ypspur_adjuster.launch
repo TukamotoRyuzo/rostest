@@ -1,0 +1,15 @@
+<launch>
+    <!-- launch ypspur-coordinator -->
+    <node pkg="robot_launcher" type="ypspur_coordinator.sh" name="ypspur_coordinator"
+          args="$(find robot_launcher)/ypspur_params/yp-h29ki-3600-1.param"/>
+
+    <include file="$(find timed_roslaunch)/launch/timed_roslaunch.launch">
+      <arg name="time" value="5" />
+      <arg name="pkg" value="robot_launcher" />
+      <arg name="file" value="ypspur_ros.launch" />
+    </include>
+    
+    <!-- <node name="turtle_teleop_key" pkg="turtlesim" type="turtle_teleop_key" 
+          output="screen" args="/turtle1/cmd_vel:=/ypspur_ros/cmd_vel"/> -->
+</launch>
+

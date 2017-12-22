@@ -30,7 +30,8 @@ my_robo:
     # (but comment out this, navigation does not work.)
     
     # "Wheel separation" means the distance between the right outside of the right wheel and the left outside of the left wheel.
-    wheel_separation : 0.478
+    # wheel_separation : 0.478
+    wheel_separation : 0.422
     wheel_radius : 0.085
  
     # Wheel separation and radius multipliers
