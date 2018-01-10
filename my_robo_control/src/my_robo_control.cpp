@@ -162,7 +162,7 @@ int main(int argc, char *argv[])
         ros::Time now = myrobo.getTime();
         ros::Duration dt = myrobo.getPeriod();
 
-        if(YP_get_error_state() == 0)
+        if (YP_get_error_state() == 0)
         {
             myrobo.read(now, dt);
             myrobo.write(now, dt);

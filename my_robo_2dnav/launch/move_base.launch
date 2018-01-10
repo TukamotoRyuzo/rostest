@@ -1,7 +1,7 @@
 <launch>
   <master auto="start"/>
   <arg name="laser" default="/scan"/>
-  <arg name="cmd_vel" default="/my_robo/diff_drive_controller/cmd_vel"/>
+  <arg name="cmd_vel" default="/diff_drive_controller/cmd_vel"/>
   <arg name="x" default="0.0"/>
   <arg name="y" default="0.0"/>
   <arg name="a" default="0.0"/> <!-- yaw -->
@@ -50,7 +50,7 @@
     <param name="initial_pose_a" value="$(arg a)"/>
   </node>
  
-  #move_baseはcmd_velトピックを出すが、diff_drive_controller用に/my_robo/diff_drive_controller/cmd_velという名前のトピックに変更している
+  #move_baseはcmd_velトピックを出すが、diff_drive_controller用にdiff_drive_controller/cmd_velという名前のトピックに変更している
   <!--- Run Move Base -->
   <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen" args="/cmd_vel:=$(arg cmd_vel)">
     <rosparam file="$(find my_robo_2dnav)/costmap_common_params.yaml" command="load" ns="global_costmap" />

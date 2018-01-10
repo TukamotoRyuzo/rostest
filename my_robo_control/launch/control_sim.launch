@@ -8,10 +8,13 @@
  
   <!-- load the controllers -->
   <node name="controller_spawner" pkg="controller_manager"
-        type="spawner" ns="my_robo" output="screen"
-        args="joint_state_controller diff_drive_controller head_position_controller neck_position_controller"/>
+        type="spawner" output="screen"
+        args="joint_state_controller
+              diff_drive_controller
+              head_position_controller
+              neck_position_controller"/>
  
   <!-- convert joint states to TF transforms for rviz, etc -->
   <node name="robot_state_publisher" pkg="robot_state_publisher"
-        type="robot_state_publisher" respawn="false" output="screen" ns="/my_robo"/>
+        type="robot_state_publisher" respawn="false" output="screen"/>
 </launch>
