@@ -88,7 +88,7 @@ void tableNumberCallback(const std_msgs::Int8::ConstPtr& msg)
         {
             ROS_INFO("The base failed to move for some reason");
             std_msgs::Int8 m;
-            m.data = -1;
+            m.data = 2;
             gpub->publish(m);
             return;
         }     
@@ -96,7 +96,7 @@ void tableNumberCallback(const std_msgs::Int8::ConstPtr& msg)
     
     ROS_INFO("Hooray! Hi Hi Hi.");
     std_msgs::Int8 m;
-    m.data = 0;
+    m.data = 2;
     gpub->publish(m);     
 }
 
@@ -119,8 +119,8 @@ int main(int argc, char** argv)
     
     gac = &ac;
     ros::NodeHandle n;
-    ros::Publisher pub = n.advertise<std_msgs::Int8>("navigate_result", 10);
-    ros::Subscriber sub = n.subscribe("table_number", 10, tableNumberCallback);
+    ros::Publisher pub = n.advertise<std_msgs::Int8>("android_communication", 10);
+    ros::Subscriber sub = n.subscribe("android", 10, tableNumberCallback);
     gpub = &pub;
     ros::spin();
     
