@@ -73,14 +73,18 @@
   <property name="hx" value="0"/>
   <property name="hy" value="0"/>
   <property name="hz" value="${nh/2.0+hh/2.0}"/>
+  <!--<property name="hp" value="${M_PI/6.0}"/>-->
+  <property name="hp" value="0"/>
   <property name="head_mass" value="4.0"/>
   <property name="head_ixx" value="${1.0/12.0*head_mass*(hw*hw+hh*hh)}"/>
   <property name="head_iyy" value="${1.0/12.0*head_mass*(hh*hh+hd*hd)}"/>
   <property name="head_izz" value="${1.0/12.0*head_mass*(hw*hw+hd*hd)}"/>
   
   <!-- footprint(rotation coodinate) -->
-  <property name="fpx" value="${fx+wx}"/>
-  <property name="fpz" value="${fz+wz}"/>
+  <!--<property name="fpx" value="${fx+wx}"/>-->
+  <!--<property name="fpz" value="${fz+wz}"/>-->
+  <property name="fpx" value="0"/>
+  <property name="fpz" value="${fz}"/>
   
   <!-- footprint -->
   <link name="base_footprint"/>
@@ -207,7 +211,7 @@
   <joint name="head_joint" type="revolute">
     <parent link="neck_link"/>
     <child link="head_link"/>
-    <origin rpy="0 0 0" xyz="${hx} ${hy} ${hz}"/>
+    <origin rpy="0 ${hp} 0" xyz="${hx} ${hy} ${hz}"/>
     <axis xyz="0 1 0"/>
     <limit lower="${-M_PI/180.0*20.0}" upper="${M_PI/180.0*20.0}" effort="0.5293" velocity="6.159937255"/>
   </joint>
