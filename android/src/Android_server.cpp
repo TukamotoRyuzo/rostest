@@ -82,31 +82,37 @@ void func(int func_argc,unsigned short echoServPort){
         DieWithError("listen() failed");
 	}
 
-	if ((clntSock = accept(servSock, (struct sockaddr *) &echoClntAddr, 
-                               &clntLen)) < 0)
+	while (true) 
 	{
-            DieWithError("accept() failed");
-	}
+		if ((clntSock = accept(servSock, (struct sockaddr *) &echoClntAddr, 
+		                           &clntLen)) < 0)
+		{
+		        DieWithError("accept() failed");
+		}
 
-	printf("echoServPort=%d\n",echoServPort);
-	printf("accept clntSock = %d\n",clntSock);
+		printf("echoServPort=%d\n",echoServPort);
+		printf("accept clntSock = %d\n",clntSock);
 
 
-	//while(ros::ok())
-	while(1)
-	{
-		printf("test1\n");
-		if(recv(clntSock,test_recv,4,0) <= 0 )
-			DieWithError((char*)"accept");
+		//while(ros::ok())
+		while(1)
+		{
+			printf("test1\n");
+			if(recv(clntSock,test_recv,4,0) <= 0 )
+			{
+				printf("accept\n");
+				close(clntSock);
+				break;
+			}	
+			printf("recv clntSock = %d\n",clntSock);
 
-		printf("recv clntSock = %d\n",clntSock);
+			printf("test_recv2: %d\n", test_recv[0]);
 
-		printf("test_recv2: %d\n", test_recv[0]);
+			Int8.data = test_recv[0];
+			twist_pub.publish(Int8);
 
-		Int8.data = test_recv[0];
-		twist_pub.publish(Int8);
-
-		sleep(1);	
+			sleep(1);	
+		}
 	}
 }
 
