@@ -15,8 +15,10 @@ int MyRobo::open() const
     int ret = Spur_init();
 
     // set_wheel_vel, accelでタイヤ軸の角速度・各加速度を指定し、wheel_ang, velで角度指令・速度指令値を与える。
-    YP_set_wheel_vel(1.0, 1.0);
-    YP_set_wheel_accel(0.5, 0.5);
+    // YP_set_wheel_velはypspurのパラメータのMAX_W
+    // YP_set_wheel_accelはypspurのパラメータのMAX_ACC_W
+    YP_set_wheel_vel(32.68, 32.68);
+    YP_set_wheel_accel(65.36, 65.36);
     
     return ret;
 }
