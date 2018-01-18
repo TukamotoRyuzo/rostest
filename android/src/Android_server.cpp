@@ -11,53 +11,29 @@
 
 #define MAXPENDING 5    /* Maximum outstanding connection requests */
 
-	int clntSock; 
-//	char test_recv[1] = {0,};
-
+int clntSock; 
 int recv_start = 0;
-
 ros::Publisher twist_pub;
 
 void DieWithError(char *errorMessage)  /* Error handling function */
 {
 	printf(errorMessage);
-
 	exit(0);
 }
 
-/**/
-//void func(int func_argc,char *func_argv[]){
 void func(int func_argc,unsigned short echoServPort){
-/**/
 	printf("func\n");
 	int sock;
 	unsigned int echoStringLen;
 	char *echoString;
-
 	std_msgs::Int8 Int8;
-
-	int send_msg2 = 1;
-	char test_recv[1] = {0,};
-
+	char test_recv[4] = {0,};
 
     int servSock;                    /* Socket descriptor for server */
     struct sockaddr_in echoServAddr; /* Local address */
     struct sockaddr_in echoClntAddr; /* Client address */
-//    unsigned short echoServPort;     /* Server port */
     unsigned int clntLen;            /* Length of client address data structure */
 
-
- /*   if (func_argc != 2)    
-    {
-        fprintf(stderr, "Usage:  %s <Server Port>\n", func_argv[0]);
-        exit(1);
-    }
-*/
-//    echoServPort = atoi(func_argv[1]);  /* First arg:  local port */
-/*    echoServPort = atoi(func_argv[1]);
-
-    printf("echoServPort=%d\n",echoServPort);
-*/
     /* Create socket for incoming connections */
     if ((servSock = socket(PF_INET, SOCK_STREAM, IPPROTO_TCP)) < 0)
 	{
@@ -87,97 +63,72 @@ void func(int func_argc,unsigned short echoServPort){
 		if ((clntSock = accept(servSock, (struct sockaddr *) &echoClntAddr, 
 		                           &clntLen)) < 0)
 		{
-		        DieWithError("accept() failed");
+		    DieWithError("accept() failed");
 		}
 
 		printf("echoServPort=%d\n",echoServPort);
 		printf("accept clntSock = %d\n",clntSock);
 
-
-		//while(ros::ok())
-		while(1)
+		while (1)
 		{
 			printf("test1\n");
-			if(recv(clntSock,test_recv,1,0) <= 0 )
+			if(recv(clntSock,test_recv,4,0) <= 0 )
 			{
 				printf("accept\n");
 				close(clntSock);
 				break;
 			}	
 			printf("recv clntSock = %d\n",clntSock);
+			printf("test_recv2: %d\n", test_recv[3]);
 
-			printf("test_recv2: %d\n", test_recv[0]);
-
-			Int8.data = test_recv[0];
+			Int8.data = test_recv[3];
 			twist_pub.publish(Int8);
-
 			sleep(1);	
 		}
 	}
 }
 
-
-
 void msgCallback(const std_msgs :: Int8 :: ConstPtr & msg)
 {
 	ROS_INFO("recieve msg = %d",msg->data);
-	char send_msg = msg->data;
+	int send_msg = (int)msg->data;
 
-	if(clntSock <= 0)
+	if (clntSock <= 0)
 	{
 		printf("clntSock not\n");
 	}
 	else
 	{
-
-		if( send( clntSock, &send_msg, 1, 0 ) < 0 )
-//		if( send( clntSock, &send_msg2, 4, 0 ) < 0 )
-					DieWithError( "send() error" );
+		if (send(clntSock, &send_msg, 4, 0) < 0)
+			DieWithError( "send() error" );
 	}
+	
 	printf("send clntSock = %d\n",clntSock);
 	printf("subscribe end\n");
 }
-
 
 int main(int argc, char *argv[])
 {
     ros::init(argc, argv, "android_communication");
     ros::NodeHandle nh;
-    std_msgs::Int8 Int8;
-    
     twist_pub = nh.advertise<std_msgs::Int8>("/android", 1);
 
-	unsigned short Port;
 	if (argc != 2)    
-	    {
+	{
 		fprintf(stderr, "Usage:  %s <Server Port>\n", argv[0]);
 		exit(1);
-	    }
-	Port = atoi(argv[1]);
+	}
 
+	unsigned short Port = atoi(argv[1]);
     printf("Port=%d\n",Port);
-
+    twist_pub = nh.advertise<std_msgs::Int8>("/android", 1);
 	std::thread th(func, argc, Port);
-	ros::Subscriber ros_tutorial_sub = nh.subscribe("/android_communication",1, msgCallback);
- //   std::thread th(func, argc, *argv);
-	
-	
-/**/	    
+	ros::Subscriber ros_tutorial_sub = nh.subscribe("/android_communication",1, msgCallback);    
     ros::Rate rate(1);
     while (ros::ok()) 
-
     {
-//	ros::Subscriber ros_tutorial_sub = nh.subscribe("/android_communication",1, msgCallback);
-//	printf("test_recv_main: %s\n", test_recv[0]);
-
-
-//        printf("Handling client %s\n", inet_ntoa(echoClntAddr.sin_addr));
-/*	Int8.data = test_recv[0];
-	twist_pub.publish(Int8);
-*/
-
-	rate.sleep();
-	ros::spinOnce();
+		rate.sleep();
+		ros::spinOnce();
     }
     /* NOT REACHED */
 }
