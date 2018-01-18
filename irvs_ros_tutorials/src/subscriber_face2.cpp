@@ -6,7 +6,7 @@
 
 #include "std_msgs/String.h"
 #include "pimouse_vision_control/test1.h"
-#include "std_msgs/Int16.h"
+#include "std_msgs/Int8.h"
 #include "std_msgs/String.h"
 
 int first = 0;
@@ -137,7 +137,7 @@ void msgCallback(const pimouse_vision_control :: test1 :: ConstPtr & msg)
 
 }
 
-void msgCallback2(const std_msgs :: Int16 :: ConstPtr & msg)
+void msgCallback2(const std_msgs :: Int8 :: ConstPtr & msg)
 {	
 	char msgs[256] = {'\0'}; 
 	char signal[256] = "CMN"; 

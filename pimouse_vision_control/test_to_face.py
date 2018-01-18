@@ -54,7 +54,7 @@ if __name__ == '__main__':
 
     rate = rospy.Rate(10)
     while not rospy.is_shutdown():
-        rospy.loginfo(fd.detect_face())
+        # rospy.loginfo(fd.detect_face())
         rate.sleep()
 
 # Copyright 2016 Ryuichi Ueda

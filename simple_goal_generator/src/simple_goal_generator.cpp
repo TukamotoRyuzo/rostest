@@ -88,7 +88,7 @@ void tableNumberCallback(const std_msgs::Int8::ConstPtr& msg)
         {
             ROS_INFO("The base failed to move for some reason");
             std_msgs::Int8 m;
-            m.data = 2;
+            m.data = -1;
             gpub->publish(m);
             return;
         }     
@@ -96,7 +96,7 @@ void tableNumberCallback(const std_msgs::Int8::ConstPtr& msg)
     
     ROS_INFO("Hooray! Hi Hi Hi.");
     std_msgs::Int8 m;
-    m.data = 2;
+    m.data = 0;
     gpub->publish(m);     
 }
 

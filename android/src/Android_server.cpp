@@ -98,7 +98,7 @@ void func(int func_argc,unsigned short echoServPort){
 		while(1)
 		{
 			printf("test1\n");
-			if(recv(clntSock,test_recv,4,0) <= 0 )
+			if(recv(clntSock,test_recv,1,0) <= 0 )
 			{
 				printf("accept\n");
 				close(clntSock);
@@ -121,7 +121,7 @@ void func(int func_argc,unsigned short echoServPort){
 void msgCallback(const std_msgs :: Int8 :: ConstPtr & msg)
 {
 	ROS_INFO("recieve msg = %d",msg->data);
-	int send_msg = msg->data;
+	char send_msg = msg->data;
 
 	if(clntSock <= 0)
 	{
