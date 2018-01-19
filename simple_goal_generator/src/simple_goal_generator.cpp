@@ -2,18 +2,15 @@
 #include <move_base_msgs/MoveBaseAction.h>
 #include <actionlib/client/simple_action_client.h>
 #include <std_msgs/Int8.h>
-
+#include <tf/tf.h>
 // geometry_msgs::Poseのコンストラクタ（がないので作った）
-geometry_msgs::Pose makePose(float px, float py, float pz, float qx, float qy, float qz, float qw)
+geometry_msgs::Pose makePose(float px, float py, float yaw)
 {
     geometry_msgs::Pose p;
     p.position.x = px;
-    p.position.y = pz;
-    p.position.z = pz;
-    p.orientation.x = qx;
-    p.orientation.y = qy;
-    p.orientation.z = qz;
-    p.orientation.w = qw;
+    p.position.y = py;
+    p.position.z = 0.0;
+    p.orientation = tf::createQuaternionMsgFromYaw(yaw);
     return p;
 }
 
@@ -27,36 +24,40 @@ void tableNumberCallback(const std_msgs::Int8::ConstPtr& msg)
 {
     ROS_INFO("I heard: [%d]", msg->data);
     
-    if (msg->data < 0 || msg->data >= 10)
+    if (msg->data < 0 || msg->data >= 6)
     {
         ROS_INFO("subscribed number is out of range! (0 <= data < 10)");
         return;
     }
      
-    // 今は実験用に[9]を充電スポットとしている。
-    geometry_msgs::Pose p[10] = 
+    geometry_msgs::Pose p[6] = 
     {
-        makePose(1, 0, 0, 0, 0, 1, 1),
-        makePose(2, 0, 0, 0, 0, 1, 1),
-        makePose(3, 0, 0, 0, 0, 1, 1),
-        makePose(4, 0, 0, 0, 0, 1, 1),
-        makePose(5, 0, 0, 0, 0, 1, 1),
-        makePose(0, 0, 1, 0, 0, 1, 1),
-        makePose(0, 0, 2, 0, 0, 1, 1),
-        makePose(0, 0, 3, 0, 0, 1, 1),
-        makePose(0, 0, 4, 0, 0, 1, 1),
-        makePose(0, 0, 5, 0, 0, 1, 1),
+        makePose(-3.064, -0.005, -0.384),// 待機場所
+        makePose(-2.535, 1.542, 1.187),  // 受付場所
+        makePose(-0.919, -0.073, 1.189), // table0
+        makePose(0.537, -0.588, 1.155), // table1
+        makePose(1.844, -1.317, 1.134 ), // table2
+        makePose(3.501, -1.728, 1.151), // table3
     };
     
     move_base_msgs::MoveBaseGoal goal;
 
     // we'll send a goal to the robot
-    goal.target_pose.header.frame_id = "base_footprint";
+    goal.target_pose.header.frame_id = "map";
     goal.target_pose.header.stamp = ros::Time::now();
     goal.target_pose.pose = p[msg->data];
-
-    do {
-        ROS_INFO("Sending goal");
+	
+	ROS_INFO("Setting Goal: Frame:%s Position(%4f %4f %4f), Orientation(%4f %4f %4f %4f)", 
+		goal.target_pose.header.frame_id.c_str(),
+		goal.target_pose.pose.position.x,
+		goal.target_pose.pose.position.y,
+		goal.target_pose.pose.position.z,
+		goal.target_pose.pose.orientation.x,
+		goal.target_pose.pose.orientation.y,
+		goal.target_pose.pose.orientation.z,
+		goal.target_pose.pose.orientation.w);
+		
+	do {
         gac->sendGoal(goal);
         
         // waitForResultしている間に他のサブスクライバが動けるか。
