@@ -53,10 +53,10 @@
   #move_baseはcmd_velトピックを出すが、diff_drive_controller用にdiff_drive_controller/cmd_velという名前のトピックに変更している
   <!--- Run Move Base -->
   <node pkg="move_base" type="move_base" respawn="false" name="move_base" output="screen" args="/cmd_vel:=$(arg cmd_vel)">
-    <rosparam file="$(find my_robo_2dnav)/costmap_common_params.yaml" command="load" ns="global_costmap" />
-    <rosparam file="$(find my_robo_2dnav)/costmap_common_params.yaml" command="load" ns="local_costmap" />
-    <rosparam file="$(find my_robo_2dnav)/local_costmap_params.yaml" command="load" />
-    <rosparam file="$(find my_robo_2dnav)/global_costmap_params.yaml" command="load" />
-    <rosparam file="$(find my_robo_2dnav)/base_local_planner_params.yaml" command="load" />
+    <rosparam file="$(find my_robo_2dnav)/params/costmap_common_params.yaml" command="load" ns="global_costmap" />
+    <rosparam file="$(find my_robo_2dnav)/params/costmap_common_params.yaml" command="load" ns="local_costmap" />
+    <rosparam file="$(find my_robo_2dnav)/params/local_costmap_params.yaml" command="load" />
+    <rosparam file="$(find my_robo_2dnav)/params/global_costmap_params.yaml" command="load" />
+    <rosparam file="$(find my_robo_2dnav)/params/base_local_planner_params.yaml" command="load" />
   </node>
 </launch>

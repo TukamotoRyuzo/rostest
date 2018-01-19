@@ -12,6 +12,7 @@ rosrun rviz rviz
 実機での起動は下記コマンドを実行すればできます。
 roslaunch robot_launcher setup_robot.launch  
 roslaunch my_robo_control control_real.launch  
+roslaunch my_robo_control run.launch  
 roslaunch my_robo_2dnav move_base_B205.launch  
 roslaunch simple_goal_generator goal_generator.launch  
 roslaunch robot_launcher setup_okada.launch  
@@ -53,7 +54,7 @@ rostopic pub -1 /robotics_cmd std_msgs/String 'CMNL30'
 * android  
   androidタブレットとの通信ノード。
   
-* irvs_ros_tutorials
+* irvs_ros_tutorials  
   ロボットに搭載されている'Arduino'から送られてくるセンサメッセージの受信ノード。  
   顔の位置を見つけてお辞儀をするノード。  
   パッケージ名がチュートリアルのままなのは気にしない。
