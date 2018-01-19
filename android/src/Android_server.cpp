@@ -15,9 +15,9 @@ int clntSock;
 int recv_start = 0;
 ros::Publisher twist_pub;
 
-void DieWithError(char *errorMessage)  /* Error handling function */
+void DieWithError(const char *errorMessage)  /* Error handling function */
 {
-	printf(errorMessage);
+	puts(errorMessage);
 	exit(0);
 }
 
@@ -60,8 +60,7 @@ void func(int func_argc,unsigned short echoServPort){
 
 	while (true) 
 	{
-		if ((clntSock = accept(servSock, (struct sockaddr *) &echoClntAddr, 
-		                           &clntLen)) < 0)
+		if ((clntSock = accept(servSock, (struct sockaddr *) &echoClntAddr, &clntLen)) < 0)
 		{
 		    DieWithError("accept() failed");
 		}

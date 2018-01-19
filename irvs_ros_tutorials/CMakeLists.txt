@@ -18,7 +18,7 @@ generate_messages(DEPENDENCIES std_msgs)
 catkin_package(
 LIBRARIES irvs_ros_tutorials
 CATKIN_DEPENDS roscpp std_msgs
-DEPENDS system_lib
+# DEPENDS system_lib
 )
 ##インクルードディレクトリの設定
 include_directories(include ${catkin_INCLUDE_DIRS})
@@ -26,10 +26,6 @@ include_directories(include ${catkin_INCLUDE_DIRS})
 
 add_executable(subscriber_face2 src/subscriber_face2.cpp)
 target_link_libraries(subscriber_face2 ${catkin_LIBRARIES})
-add_dependencies(subscriber_face2
-subscriber_face2_cpp)
 
 add_executable(sensor_subscriber src/sensor_subscriber.cpp)
 target_link_libraries(sensor_subscriber ${catkin_LIBRARIES})
-add_dependencies(sensor_subscriber
-sensor_subscriber_cpp)

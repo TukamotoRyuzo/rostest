@@ -18,6 +18,7 @@ typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseCl
 
 MoveBaseClient* gac;
 ros::Publisher* gpub;
+ros::Publisher* gpub_ojigi;
 
 // msgをsubscribeした時に呼びだされるコールバック
 void tableNumberCallback(const std_msgs::Int8::ConstPtr& msg)
@@ -98,7 +99,11 @@ void tableNumberCallback(const std_msgs::Int8::ConstPtr& msg)
     ROS_INFO("Hooray! Hi Hi Hi.");
     std_msgs::Int8 m;
     m.data = 0;
-    gpub->publish(m);     
+    gpub->publish(m);
+    
+    // 受付場所に行くのに成功したらお辞儀メッセージをpublishする。
+    if (msg->data == 1)
+        gpub_ojigi->publish(m);
 }
 
 int main(int argc, char** argv)
@@ -121,8 +126,10 @@ int main(int argc, char** argv)
     gac = &ac;
     ros::NodeHandle n;
     ros::Publisher pub = n.advertise<std_msgs::Int8>("android_communication", 10);
+    ros::Publisher pub_ojigi = n.advertise<std_msgs::Int8>("ojigi", 10);
     ros::Subscriber sub = n.subscribe("android", 10, tableNumberCallback);
     gpub = &pub;
+    gpub_ojigi = &pub_ojigi;
     ros::spin();
     
     return 0;
