@@ -24,7 +24,7 @@
   <property name="foot_izz" value="${1.0/12.0*foot_mass*(fw*fw+fd*fd)}"/>
    
   <!-- tail (parent frame: foot_link) -->
-  <property name="td"  value="0.00"/>
+  <property name="td"  value="0.01"/>
   <property name="tw"  value="0.250"/>
   <property name="th"  value="0.010"/>
   <property name="tx"  value="${-fd/2-td/2}"/>
@@ -391,14 +391,14 @@
  
   <gazebo reference="base_link">
     <selfCollide>true</selfCollide>
-    <mu1 value="0.00" />
-    <mu2 value="0.00" />
+    <mu1 value="1.00" />
+    <mu2 value="1.00" />
   </gazebo>
   
   <gazebo reference="foot_link">
     <selfCollide>true</selfCollide>
-    <mu1 value="0.00" />
-    <mu2 value="0.00" />
+    <mu1 value="1.00" />
+    <mu2 value="1.00" />
   </gazebo>
   
   <gazebo reference="left_wheel_link">
