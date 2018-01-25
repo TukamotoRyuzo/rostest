@@ -12,7 +12,6 @@
     <node pkg="robot_launcher" type="ypspur_coordinator.sh" name="ypspur_coordinator"
           args="$(find robot_launcher)/ypspur_params/yp-h29ki-3600-1.param"/>
 
-
     <!-- launch rosserial -->
 	<node pkg="rosserial_python" type="serial_node.py" name="serial_node" output="screen">
 	      <param name="_port" value="/dev/Arduino"/>

@@ -2,6 +2,7 @@
 #include <move_base_msgs/MoveBaseAction.h>
 #include <actionlib/client/simple_action_client.h>
 #include <std_msgs/Int8.h>
+#include <std_srvs/Empty.h>
 #include <tf/tf.h>
 // geometry_msgs::Poseのコンストラクタ（がないので作った）
 geometry_msgs::Pose makePose(float px, float py, float yaw)
@@ -19,6 +20,7 @@ typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseCl
 MoveBaseClient* gac;
 ros::Publisher* gpub;
 ros::Publisher* gpub_ojigi;
+ros::ServiceClient g_clear_costmaps_service;
 
 // msgをsubscribeした時に呼びだされるコールバック
 void tableNumberCallback(const std_msgs::Int8::ConstPtr& msg)
@@ -59,6 +61,8 @@ void tableNumberCallback(const std_msgs::Int8::ConstPtr& msg)
 		goal.target_pose.pose.orientation.w);
 		
 	do {
+		std_srvs::Empty empty_msg;
+		g_clear_costmaps_service.call(empty_msg);
         gac->sendGoal(goal);
         
         // waitForResultしている間に他のサブスクライバが動けるか。
@@ -128,6 +132,7 @@ int main(int argc, char** argv)
     ros::Publisher pub = n.advertise<std_msgs::Int8>("android_communication", 10);
     ros::Publisher pub_ojigi = n.advertise<std_msgs::Int8>("ojigi", 10);
     ros::Subscriber sub = n.subscribe("android", 10, tableNumberCallback);
+    g_clear_costmaps_service = n.serviceClient<std_srvs::Empty>("move_base/clear_costmaps");
     gpub = &pub;
     gpub_ojigi = &pub_ojigi;
     ros::spin();
