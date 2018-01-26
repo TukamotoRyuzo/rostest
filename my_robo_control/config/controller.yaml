@@ -52,8 +52,8 @@ diff_drive_controller:
   angular:
     z:
       has_velocity_limits    : true
-      max_velocity           : 0.5  # rad/s
-      min_velocity           : -0.5
+      max_velocity           : 1.56  # rad/s
+      min_velocity           : -1.56
       has_acceleration_limits: true
-      max_acceleration       : 0.2  # rad/s^2
-      min_acceleration       : -0.2
+      max_acceleration       : 1.56  # rad/s^2
+      min_acceleration       : -1.56
