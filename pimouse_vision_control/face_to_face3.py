@@ -3,25 +3,19 @@
 import rospy, cv2
 from sensor_msgs.msg import Image
 from cv_bridge import CvBridge, CvBridgeError
-from pimouse_vision_control.msg import test1
 
 class FaceToFace():
     def __init__(self):
         sub = rospy.Subscriber("/cv_camera/image_raw", Image, self.get_image)
-        self.pub = rospy.Publisher("test1", test1, queue_size=10)
+        self.pub = rospy.Publisher("face", Image, queue_size=1)
         self.bridge = CvBridge()
         self.image_org = None
 
     def monitor(self,rect,org):                                 #このメソッドを追加
         if rect is not None:
             cv2.rectangle(org,tuple(rect[0:2]),tuple(rect[0:2]+rect[2:4]),(0,255,255),4)
-	    d = test1()
-	    d.a = rect[0]
-	    d.b = rect[1]
-	    d.c = rect[2]
-	    d.d = rect[3]       
-	    self.pub.publish(d)
-        
+       
+        self.pub.publish(self.bridge.cv2_to_imgmsg(org, "bgr8"))
    
     def get_image(self,img):
         try:
@@ -54,8 +48,8 @@ if __name__ == '__main__':
 
     rate = rospy.Rate(10)
     while not rospy.is_shutdown():
-    	fd.detect_face()
-        #rospy.loginfo()
+    	r = fd.detect_face()
+        #rospy.loginfo(r)
         rate.sleep()
 
 # Copyright 2016 Ryuichi Ueda

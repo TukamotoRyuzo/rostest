@@ -23,7 +23,7 @@ void msgCallback(const pimouse_vision_control :: test1 :: ConstPtr & msg)
 	int count = 0;
 	
 	int camera_angle = 60 ;
-	int side_pixel = 640;
+	int side_pixel = 320;
 	
 	float midstream;
 	
@@ -94,7 +94,7 @@ void msgCallback(const pimouse_vision_control :: test1 :: ConstPtr & msg)
 		   y_point_sum > y_point[0] - difference && y_point_sum < y_point[0] + difference &&
 		   x_length_sum > x_length[0] - difference && x_length_sum < x_length[0] + difference &&
 		   y_length_sum > y_length[0] - difference && y_length_sum < y_length[0] + difference &&
-		   x_length_sum > 70 )
+		   x_length_sum > 40 )
 		{
 			printf("success\n\n");
 			midstream = x_point_sum + (y_length_sum / 2);
@@ -142,12 +142,16 @@ void msgCallback2(const std_msgs :: Int8 :: ConstPtr & msg)
 	char signal[256] = "CMN"; 
 	char L[2] = {'L'}; 
 	char R[2] = {'R'}; 
+	/*応急措置*/
+	char start[256] = "CMHD20";
+	
 	char down[256] = "CMHD15";
 	char up[256] = "CMHD0";
+	char up2[256] = "CMHU5";
 	char front[256] = "CMNL0";
 	std_msgs::String String;
 
-    if(angle < -30 || angle > 30)
+    if(angle < -20 || angle > 20)
     {
         printf("angle is over\n");
         angle = before_angle;
@@ -160,36 +164,52 @@ void msgCallback2(const std_msgs :: Int8 :: ConstPtr & msg)
     if(angle < 0) 
     {
 	    angle = angle * -1;
-	    sprintf(msgs, "%f", angle);
+	    sprintf(msgs, "%d", (int)angle);
 	    strcat(signal,L);
 	    strcat(signal,msgs);
 	    printf("angle_mozi_left = %s\n",signal);
 		
     }
-    else if(angle > 0) 
+    else if(angle >= 0) 
     {
-	    sprintf(msgs, "%f", angle);
+	    sprintf(msgs, "%d", (int)angle);
 	    strcat(signal,R);
 	    strcat(signal,msgs);
 	    printf("angle_mozi_right = %s\n",signal);
 			
 	}
+/*応急措置*/
+	printf("%s\n", up2);
+	String.data = up2;
+	twist_pub.publish(String);
+	sleep(4);
 
+
+	printf("%s\n", signal);
 	String.data = signal;
 	twist_pub.publish(String);
-	sleep(2);
+	sleep(4);
 
+	printf("%s\n", down);
 	String.data = down;
 	twist_pub.publish(String);
-	sleep(2);
+	sleep(4);
 
+	printf("%s\n", up);
 	String.data = up;
 	twist_pub.publish(String);
-    sleep(1);
-    
+	sleep(4);
+
+	printf("%s\n", front);
     String.data = front;
 	twist_pub.publish(String);
-    sleep(2);
+    sleep(4);
+    
+    /*応急措置*/
+    printf("%s\n", start);
+	String.data = start;
+	twist_pub.publish(String);
+    sleep(4);
 }
 
 int main(int argc, char **argv)
@@ -198,7 +218,7 @@ int main(int argc, char **argv)
 
 	ros::NodeHandle nh;
 
-
+	ROS_INFO("subscriber_face");
 	ros::Subscriber ros_tutorial_sub = nh.subscribe("/test1",1, msgCallback);
 	ros::Subscriber ros_tutorial_sub2 = nh.subscribe("/ojigi",1, msgCallback2);
 //	twist_pub = nh.advertise<std_msgs::Float32>("/angle", 1);/*ここを変更*/

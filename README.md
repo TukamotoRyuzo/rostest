@@ -5,27 +5,28 @@ yp-spurで動く差動二輪ロボットを想定し、ros_controlを用いてga
 ros_controlとyp-spurの連携に関してはネット上にあまり情報を見かけないので何かの参考になるかもしれません。  
  
 * シミュレータでのnavigation
-1. `roslaunch my_robo_description spawn_world_b205.launch`  
-2. `roslaunch my_robo_control control_base.launch`  
-3. `roslaunch my_robo_description spawn_model_b205.launch`  
-4. `roslaunch my_robo_2dnav move_base_b205.launch`  
-5. `rosrun rviz rviz`  
+`roslaunch my_robo_description spawn_world_b205.launch`  
+`roslaunch my_robo_control control_base.launch`  
+`roslaunch my_robo_description spawn_model_b205.launch`  
+`roslaunch my_robo_2dnav move_base_b205.launch`  
+`rosrun rviz rviz`  
 
 * ロボットの初期位置を元に戻してnavigationをやり直す
-1. `move_base_b205.launch`を起動しているterminalでCtrl+C  
-2. `control_base.launch`を起動しているterminalをCtrl+C  
-3. `roslaunch my_robo_description spawn_model_b205.launch` でロボットモデルをrespawn  
-4. `roslaunch my_robo_control control_base.launch` でコントローラを読み込み直す  
-5. `roslaunch my_robo_2dnav move_base_b205.launch` でnaigation再開  
+`move_base_b205.launch`を起動しているterminalでCtrl+C  
+`control_base.launch`を起動しているterminalをCtrl+C  
+`roslaunch my_robo_description spawn_model_b205.launch` でロボットモデルをrespawn  
+`roslaunch my_robo_control control_base.launch` でコントローラを読み込み直す  
+`roslaunch my_robo_2dnav move_base_b205.launch` でnaigation再開  
 このようにするとgazeboを再起動する必要がないのでちょっとだけストレスが減ります。  
   
 * 実機でのnavigation
-1. `roslaunch robot_launcher setup_robot.launch`  
-2. `roslaunch my_robo_control control_real.launch`  
-3. `roslaunch my_robo_control run.launch`  
-4. `roslaunch my_robo_2dnav move_base_B205.launch`  
-5. `roslaunch simple_goal_generator goal_generator.launch`  
-6. `roslaunch robot_launcher setup_okada.launch`  
+`sudo ds4drv`
+`roslaunch robot_launcher setup_robot.launch`  
+`roslaunch my_robo_control control_real.launch`  
+`roslaunch my_robo_control run.launch`  
+`roslaunch my_robo_2dnav move_base_B205.launch`  
+`roslaunch simple_goal_generator goal_generator.launch`  
+`roslaunch robot_launcher setup_okada.launch`  
 
 * もしくはこれらを一括で起動  
 `roslaunch robot_launcher navigation_real.launch`  

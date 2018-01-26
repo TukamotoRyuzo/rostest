@@ -37,10 +37,10 @@ void tableNumberCallback(const std_msgs::Int8::ConstPtr& msg)
     {
         makePose(-3.064, -0.005, -0.384),// 待機場所
         makePose(-2.535, 1.542, 1.187),  // 受付場所
-        makePose(-0.919, -0.073, 1.189), // table0
-        makePose(0.537, -0.588, 1.155), // table1
-        makePose(1.844, -1.317, 1.134 ), // table2
-        makePose(3.501, -1.728, 1.151), // table3
+        makePose(-1.072, -0.531, 1.189), // table0
+        makePose(0.537, -0.907, 1.155), // table1
+        makePose(1.844, -1.611, 1.134 ), // table2
+        makePose(3.501, -2.150, 1.151), // table3
     };
     
     move_base_msgs::MoveBaseGoal goal;
