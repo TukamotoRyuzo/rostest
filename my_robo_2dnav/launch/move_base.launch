@@ -25,5 +25,6 @@
     <rosparam file="$(find my_robo_2dnav)/params/local_costmap_params.yaml" command="load" />
     <rosparam file="$(find my_robo_2dnav)/params/global_costmap_params.yaml" command="load" />
     <rosparam file="$(find my_robo_2dnav)/params/base_local_planner_params.yaml" command="load" />
+    <rosparam file="$(find my_robo_2dnav)/params/move_base_params.yaml" command="load" />
   </node>
 </launch>
