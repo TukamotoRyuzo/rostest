@@ -4,14 +4,14 @@ navigationを実機とシミュレータで行えます。
 yp-spurで動く差動二輪ロボットを想定し、ros_controlを用いてgazebo、実機を切り替えながら動作します。  
 ros_controlとyp-spurの連携に関してはネット上にあまり情報を見かけないので何かの参考になるかもしれません。  
  
-* シミュレータでのnavigation
+* シミュレータでのnavigation  
 `roslaunch my_robo_description spawn_world_b205.launch`  
 `roslaunch my_robo_control control_base.launch`  
 `roslaunch my_robo_description spawn_model_b205.launch`  
 `roslaunch my_robo_2dnav move_base_b205.launch`  
 `rosrun rviz rviz`  
 
-* ロボットの初期位置を元に戻してnavigationをやり直す
+* ロボットの初期位置を元に戻してnavigationをやり直す  
 `move_base_b205.launch`を起動しているterminalでCtrl+C  
 `control_base.launch`を起動しているterminalをCtrl+C  
 `roslaunch my_robo_description spawn_model_b205.launch` でロボットモデルをrespawn  
@@ -19,8 +19,8 @@ ros_controlとyp-spurの連携に関してはネット上にあまり情報を�
 `roslaunch my_robo_2dnav move_base_b205.launch` でnaigation再開  
 このようにするとgazeboを再起動する必要がないのでちょっとだけストレスが減ります。  
   
-* 実機でのnavigation
-`sudo ds4drv`
+* 実機でのnavigation  
+`sudo ds4drv`  
 `roslaunch robot_launcher setup_robot.launch`  
 `roslaunch my_robo_control control_real.launch`  
 `roslaunch my_robo_control run.launch`  
