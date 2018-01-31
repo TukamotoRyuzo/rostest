@@ -89,7 +89,7 @@ void msgCallback(const std_msgs::String::ConstPtr& msg)//ここ変更
 			printf("shutdown\n");
 			
 			// 権限がないとshutdownできないぞ・・・
-			system("shutdown -P now");	
+			system("sudo poweroff");	
 		}
 
     	ROS_INFO("remain battery: [%c]", test[9]);

@@ -1,4 +1,7 @@
 <launch>
+    <!-- launch ds4drv -->
+    <node pkg="robot_launcher" type="ds4drv.sh" name="ds4drv"/>
+
     <!-- You can adjust the pose of laser-rangefinder here. Order of values: x y z yaw pitch roll. -->
   	<node pkg="tf" type="static_transform_publisher" name="laser_transform"
   	 args="$(optenv laserpos 0 0 0 0 0 0) hokuyo_link urg_laser_link 100" />
