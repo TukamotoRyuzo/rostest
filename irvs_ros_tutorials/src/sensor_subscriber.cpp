@@ -21,7 +21,7 @@ bool remain_battery_is_low = false;
 
 void msgCallback(const std_msgs::String::ConstPtr& msg)//ここ変更
 {
-	int limit = 5;
+	int limit = 50;
 	std_msgs::Int8 Int8;
 	char wave_right[4];
 	char wave_left[4];
@@ -36,12 +36,12 @@ void msgCallback(const std_msgs::String::ConstPtr& msg)//ここ変更
 	strcpy(test,msg->data.c_str());
 
     //受信したメッセージを表示する。
-    ROS_INFO("recieve msg_ddd: %s", msg->data.c_str());
-    ROS_INFO("recieve msg_ss: %s", test);
+    //ROS_INFO("recieve msg_ddd: %s", msg->data.c_str());
+    //ROS_INFO("recieve msg_ss: %s", test);
 	
 	if(test[0] == 'S')
 	{
-		printf("success\n");
+		//printf("success\n");
 		for (i = 0; i < 3 ; i++)
 		{
 			wave_right[i] = test[i+1]; 
@@ -50,18 +50,18 @@ void msgCallback(const std_msgs::String::ConstPtr& msg)//ここ変更
 		{
 			wave_left[i] = test[i+4];
 		}
-		printf("test = %s\n",wave_right);
-		printf("test = %s\n",wave_left);
+		//printf("test = %s\n",wave_right);
+		//printf("test = %s\n",wave_left);
 
 		wave_right2 = atoi(wave_right);
 		wave_left2 = atoi(wave_left);
-		printf("test = %d\n",wave_right2);
-		printf("test = %d\n",wave_left2);
+		//printf("test = %d\n",wave_right2);
+		//printf("test = %d\n",wave_left2);
 
 		if(before_wave_right2 > wave_right2 + limit || before_wave_left2 > wave_left2 + limit ||
 		   before_wave_right2 < wave_right2 - limit || before_wave_left2 < wave_left2 - limit)
 		{
-			printf("over\n");		
+			//printf("over\n");		
 		}
 
 		else
@@ -72,24 +72,24 @@ void msgCallback(const std_msgs::String::ConstPtr& msg)//ここ変更
 				Int8.data = 6;
 				twist_pub.publish(Int8);		
 			}
-			printf("before_right = %d\n",before_wave_right2);
-			printf("before_left = %d\n",before_wave_left2);
-			before_wave_right2 = wave_right2;
-			before_wave_left2 = wave_left2;
+			//printf("before_right = %d\n",before_wave_right2);
+			//printf("before_left = %d\n",before_wave_left2);
 		}
+		
+		before_wave_right2 = wave_right2;
+		before_wave_left2 = wave_left2;
 		
 		if (test[7] == '1')
 		{
-			printf("stop\n");
-			Int8.data = 1;
-			twist_pub.publish(Int8);
-			
+			printf("stop\n");		
 		}
+		
 		if (test[8] == '1')
 		{
 			printf("shutdown\n");
-			Int8.data = 2;
-			twist_pub.publish(Int8);			
+			
+			// 権限がないとshutdownできないぞ・・・
+			system("shutdown -P now");	
 		}
 
     	ROS_INFO("remain battery: [%c]", test[9]);
@@ -119,7 +119,7 @@ void msgCallback(const std_msgs::String::ConstPtr& msg)//ここ変更
 	}
 	else
 	{
-		printf("not\n");
+		//printf("not\n");
 	}
 }
 
@@ -134,7 +134,7 @@ int main(int argc, char **argv)
 
 	printf("init2\n");
 
-    ros::Subscriber ros_tutorial_sub = nh.subscribe("robotic_cmd",100, msgCallback);
+    ros::Subscriber ros_tutorial_sub = nh.subscribe("/robotics_st",100, msgCallback);
 
     printf("init3\n");
 

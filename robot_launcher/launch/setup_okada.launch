@@ -8,6 +8,6 @@
 	<!-- <node pkg="irvs_ros_tutorials" type="subscriber_face2" name="subscriber_face2" output="screen"/> -->
 	
 	<!-- sensor monitor -->
-	<!-- <node pkg="irvs_ros_tutorials" type="sensor_subscriber" name="sensor_subscriber" output="screen"/> -->
+	<node pkg="irvs_ros_tutorials" type="sensor_subscriber" name="sensor_subscriber" output="screen"/>
 </launch>
 
