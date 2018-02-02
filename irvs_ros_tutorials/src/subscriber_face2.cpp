@@ -151,10 +151,15 @@ void msgCallback2(const std_msgs :: Int8 :: ConstPtr & msg)
 	char front[256] = "CMNL0";
 	std_msgs::String String;
 
-    if(angle < -20 || angle > 20)
+    if(angle < -20 )
     {
-        printf("angle is over\n");
-        angle = before_angle;
+        printf("angle is left over\n");
+        angle = -20;
+    }
+    else if(angle > 20)
+    {
+    	printf("angle is write over\n");
+        angle = 20;
     }
     else
     {
@@ -188,22 +193,22 @@ void msgCallback2(const std_msgs :: Int8 :: ConstPtr & msg)
 	printf("%s\n", signal);
 	String.data = signal;
 	twist_pub.publish(String);
-	sleep(4);
+	sleep(2);
 
 	printf("%s\n", down);
 	String.data = down;
 	twist_pub.publish(String);
-	sleep(4);
+	sleep(3);
 
 	printf("%s\n", up2);
 	String.data = up2;
 	twist_pub.publish(String);
-	sleep(4);
+	sleep(2);
 
 	printf("%s\n", front);
     String.data = front;
 	twist_pub.publish(String);
-    sleep(4);
+    sleep(2);
     
     /*応急措置*/
     //printf("%s\n", start);

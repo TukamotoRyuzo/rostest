@@ -92,7 +92,7 @@ void msgCallback(const std_msgs::String::ConstPtr& msg)//ここ変更
 			system("sudo poweroff");	
 		}
 
-    	ROS_INFO("remain battery: [%c]", test[9]);
+    	//ROS_INFO("remain battery: [%c]", test[9]);
     
 		// バッテリー残量に応じて目的地をpublishする。
 		if (test[9] == 'H' && remain_battery_is_low)
