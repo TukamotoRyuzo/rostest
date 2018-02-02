@@ -8,8 +8,9 @@
 #include "irvs_ros_tutorials/msgTutorial.h"
 #include "std_msgs/String.h"
 #include "std_msgs/Int8.h"
+#include "std_msgs/Int8MultiArray.h"
 
-ros::Publisher twist_pub, android_pub;
+ros::Publisher twist_pub, android_pub, neck_angle_pub;
 
 //メッセージを受信したときに動作するコールバック関数を定義
 // irvs_ros_tutorialsパッケージのmsgTutorialメッセージを受信する
@@ -19,7 +20,7 @@ int before_wave_right2 = 0;
 int before_wave_left2 = 0;
 bool remain_battery_is_low = false;
 
-void msgCallback(const std_msgs::String::ConstPtr& msg)//ここ変更
+void msgCallback(const std_msgs::String::ConstPtr& msg)
 {
 	int limit = 50;
 	std_msgs::Int8 Int8;
@@ -126,23 +127,12 @@ void msgCallback(const std_msgs::String::ConstPtr& msg)//ここ変更
 //購読者ノードのメイン関数
 int main(int argc, char **argv)
 {
-	printf("init\n");
-    //ノード名の初期化
     ros::init(argc, argv, "sensor_subscriber");
-    // ROSシステムとの通信のためのノードのハンドルを宣言
     ros::NodeHandle nh;
-
-	printf("init2\n");
-
     ros::Subscriber ros_tutorial_sub = nh.subscribe("/robotics_st",100, msgCallback);
-
-    printf("init3\n");
-
     twist_pub = nh.advertise<std_msgs::Int8>("/emergency_call", 1);
     android_pub = nh.advertise<std_msgs::Int8>("/android", 1);
-
-    //メッセージが受信されるまで待機し、受信が行われた場合、
-    //コールバック関数を実行する。
+	neck_angle_pub = nh.advertise<std_msgs::Int8MultiArray>("/neck_andle", 1);
     ros::spin();
     return 0;
 }

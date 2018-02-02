@@ -1,5 +1,6 @@
 cmake_minimum_required (VERSION 2.8.3)
 project(irvs_ros_tutorials)
+add_compile_options(-std=c++11)
 ## catkinビルドに必要なコンポーネントパッケージの設定
 ##これらのパッケージが存在しない場合、catkinビルドの途中でエラーが出る。
 
