@@ -179,10 +179,10 @@ void msgCallback2(const std_msgs :: Int8 :: ConstPtr & msg)
 			
 	}
 /*応急措置*/
-	printf("%s\n", up2);
-	String.data = up2;
-	twist_pub.publish(String);
-	sleep(4);
+//	printf("%s\n", up2);
+//	String.data = up2;
+//	twist_pub.publish(String);
+//	sleep(4);
 
 
 	printf("%s\n", signal);
@@ -195,8 +195,8 @@ void msgCallback2(const std_msgs :: Int8 :: ConstPtr & msg)
 	twist_pub.publish(String);
 	sleep(4);
 
-	printf("%s\n", up);
-	String.data = up;
+	printf("%s\n", up2);
+	String.data = up2;
 	twist_pub.publish(String);
 	sleep(4);
 
@@ -206,10 +206,10 @@ void msgCallback2(const std_msgs :: Int8 :: ConstPtr & msg)
     sleep(4);
     
     /*応急措置*/
-    printf("%s\n", start);
-	String.data = start;
-	twist_pub.publish(String);
-    sleep(4);
+    //printf("%s\n", start);
+	//String.data = start;
+	//twist_pub.publish(String);
+    //sleep(4);
 }
 
 int main(int argc, char **argv)

@@ -9,5 +9,8 @@
 	
 	<!-- sensor monitor -->
 	<node pkg="irvs_ros_tutorials" type="sensor_subscriber" name="sensor_subscriber" output="screen"/>
+	
+	<!-- sensor monitor -->
+	<node pkg="irvs_ros_tutorials" type="ojigi_publisher" name="ojigi_publisher" output="screen"/>
 </launch>
 

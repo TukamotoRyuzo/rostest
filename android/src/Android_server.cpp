@@ -84,6 +84,9 @@ void func(int func_argc,unsigned short echoServPort){
 			twist_pub.publish(Int8);
 			sleep(1);	
 		}
+		
+		// ソケットが閉じられたら0にする
+		clntSock = 0;
 	}
 }
 
@@ -92,6 +95,7 @@ void msgCallback(const std_msgs :: Int8 :: ConstPtr & msg)
 	ROS_INFO("recieve msg = %d",msg->data);
 	int send_msg = (int)msg->data;
 
+	// ソケットが閉じているときは送らない
 	if (clntSock <= 0)
 	{
 		printf("clntSock not\n");
