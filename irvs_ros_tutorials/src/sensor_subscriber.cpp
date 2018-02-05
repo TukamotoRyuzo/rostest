@@ -82,7 +82,7 @@ void msgCallback(const std_msgs::String::ConstPtr& msg)
 		
 		if (test[7] == '1')
 		{
-			printf("stop\n");		
+			//printf("stop\n");		
 		}
 		
 		if (test[8] == '1')
