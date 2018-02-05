@@ -27,12 +27,14 @@ void tableNumberCallback(const std_msgs::Int8::ConstPtr& msg)
 {
     ROS_INFO("I heard: [%d]", msg->data);
     
-    if (msg->data < 0 || msg->data >= 6)
+    if (msg->data < 0 || msg->data >= 7)
     {
         ROS_INFO("subscribed number is out of range! (0 <= data < 10)");
         return;
     }
-     
+    
+    /*
+    // b205用
     geometry_msgs::Pose p[6] = 
     {
         makePose(-3.064, -0.005, -0.384),// 待機場所
@@ -41,6 +43,19 @@ void tableNumberCallback(const std_msgs::Int8::ConstPtr& msg)
         makePose(0.537, -0.907, 1.155), // table1
         makePose(1.844, -1.611, 1.134 ), // table2
         makePose(3.501, -2.150, 1.151), // table3
+    };
+    */
+    
+    // 食堂用
+    geometry_msgs::Pose p[7] = 
+    {
+        makePose(0.358, 0.080, -0.322),// 待機場所
+        makePose(2.050, 4.865, 1.236),  // 受付場所
+        makePose(2.737, -3.631, -0.279), // table0
+        makePose(6.243, -1.183, -0.278), // table1(counter)
+        makePose(3.419, -1.824, 2.850), // table2
+        makePose(4.056, 0.980, -0.305), // table3
+        makePose(4.613, 3.041, -0.274), // table4
     };
     
     move_base_msgs::MoveBaseGoal goal;

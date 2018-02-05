@@ -122,10 +122,12 @@ void msgCallback2(const std_msgs::Int8::ConstPtr& msg)
 	printf("%s\n", msgs.c_str());
 	String.data = msgs.c_str();
 	twist_pub.publish(String);
+	sleep(2);
+	
 //	ROS_INFO("seep");
 //	ros::Duration(2).sleep();
 //	ROS_INFO("wake");
-/*
+
 	printf("%s\n", down);
 	String.data = down;
 	twist_pub.publish(String);
@@ -140,7 +142,6 @@ void msgCallback2(const std_msgs::Int8::ConstPtr& msg)
     String.data = front;
 	twist_pub.publish(String);
     sleep(2);
- */
 }
 
 // 角度を更新し続ける
