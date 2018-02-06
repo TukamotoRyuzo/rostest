@@ -18,13 +18,13 @@ void msgCallback(const pimouse_vision_control::test1::ConstPtr& msg)
 {	
 	const int sample_times = 5;
 	const int difference = 15;
-
+/*
 	ROS_INFO("a = [%ld]", msg->a);
 	ROS_INFO("b = [%ld]", msg->b);
 	ROS_INFO("c = [%ld]", msg->c);
 	ROS_INFO("d = [%ld]", msg->d);
 	ROS_INFO("sample_count = %d\n", sample_count);
-	
+	*/
 	x_point[sample_count] = msg->a;
 	y_point[sample_count] = msg->b;
 	x_length[sample_count] = msg->c;
@@ -49,11 +49,12 @@ void msgCallback(const pimouse_vision_control::test1::ConstPtr& msg)
 		x_length_sum = x_length_sum / sample_times;
 		y_length_sum = y_length_sum / sample_times;
 
+/*
 		printf("x_point_sum = %d\n", x_point_sum);
 		printf("y_point_sum = %d\n", y_point_sum);
 		printf("x_point_length = %d\n", x_length_sum);
 		printf("y_point_length = %d\n", y_length_sum);
-		
+		*/
 		// 顔が大きく移動していないことを確認する処理
 		if (x_point_sum > x_point[0] - difference && x_point_sum < x_point[0] + difference &&
 		    y_point_sum > y_point[0] - difference && y_point_sum < y_point[0] + difference &&
@@ -142,6 +143,11 @@ void msgCallback2(const std_msgs::Int8::ConstPtr& msg)
     String.data = front;
 	twist_pub.publish(String);
     sleep(2);
+    
+    printf("%s\n", down);
+	String.data = down;
+	twist_pub.publish(String);
+	sleep(3);
 }
 
 // 角度を更新し続ける
@@ -156,8 +162,8 @@ void msgCallback3(const std_msgs::String::ConstPtr& msg)
 	else if (s[0] == 'N')
 		neck_angle = s[1] == 'L' ? atoi(s + 2) : -atoi(s + 2);
 	
-	if (i++ % 10 == 0)
-	ROS_INFO("head_angle = %d, neck_angle = %d\n", head_angle, neck_angle);
+	//if (i++ % 500 == 0)
+	//ROS_INFO("head_angle = %d, neck_angle = %d\n", head_angle, neck_angle);
 }
 
 int main(int argc, char **argv)
