@@ -7,5 +7,10 @@
 	      <param name="serial_port" value="/dev/LRF"/>
 	      <param name="frame_id" value="urg_laser_link"/>
 	</node>
+	
+    <!--- Run laser filter -->
+    <node pkg="laser_filters" type="scan_to_scan_filter_chain" respawn="false" name="laser_filter" output="screen">
+	      <rosparam file="$(find robot_launcher)/params/my_laser_config.yaml" command="load"/>
+    </node>
 </launch>
 

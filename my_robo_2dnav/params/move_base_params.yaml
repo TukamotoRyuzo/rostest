@@ -5,4 +5,5 @@ planner_frequency: 1.0
 shutdown_costmaps: true 
 oscillation_timeout: 10.0
 oscillation_distance: 0.2
+max_planning_retries: 2
 

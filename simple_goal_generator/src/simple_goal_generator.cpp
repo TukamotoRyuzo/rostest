@@ -4,6 +4,10 @@
 #include <std_msgs/Int8.h>
 #include <std_srvs/Empty.h>
 #include <tf/tf.h>
+
+#include <tf/transform_listener.h>
+#include <costmap_2d/costmap_2d_ros.h>
+#include <clear_costmap_recovery/clear_costmap_recovery.h>
 // geometry_msgs::Poseのコンストラクタ（がないので作った）
 geometry_msgs::Pose makePose(float px, float py, float yaw)
 {
@@ -29,7 +33,7 @@ void tableNumberCallback(const std_msgs::Int8::ConstPtr& msg)
     
     if (msg->data < 0 || msg->data >= 7)
     {
-        ROS_INFO("subscribed number is out of range! (0 <= data < 10)");
+        ROS_INFO("subscribed number is out of range! (0 <= data < 7)");
         return;
     }
     
@@ -76,10 +80,18 @@ void tableNumberCallback(const std_msgs::Int8::ConstPtr& msg)
 		goal.target_pose.pose.orientation.w);
 		
 	do {
-		std_srvs::Empty empty_msg;
-		g_clear_costmaps_service.call(empty_msg);
-        gac->sendGoal(goal);
-        
+		//std_srvs::Empty empty_msg;
+		//g_clear_costmaps_service.call(empty_msg);
+
+        //tf::TransformListener tf(ros::Duration(10));
+		//costmap_2d::Costmap2DROS global_costmap("global_costmap", tf);
+		//costmap_2d::Costmap2DROS local_costmap("local_costmap", tf);
+		//clear_costmap_recovery::ClearCostmapRecovery ccr;
+		//ccr.initialize("my_clear_costmap_recovery", &tf, &global_costmap, &local_costmap);
+		//ccr.runBehavior();
+		
+		
+		gac->sendGoal(goal);
         // waitForResultしている間に他のサブスクライバが動けるか。
         // →動けない。プリエンプションさせるノードが別に必要。
         // →作った。

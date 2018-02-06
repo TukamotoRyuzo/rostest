@@ -6,12 +6,13 @@ find_package(catkin REQUIRED COMPONENTS
   actionlib
   move_base_msgs
   roscpp
+  clear_costmap_recovery
 )
 
 catkin_package(
   #INCLUDE_DIRS include
   LIBRARIES simple_goal_generator
-  CATKIN_DEPENDS actionlib move_base_msgs roscpp
+  CATKIN_DEPENDS actionlib move_base_msgs roscpp clear_costmap_recovery
   #DEPENDS system_lib
 )
 
