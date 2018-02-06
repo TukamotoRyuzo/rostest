@@ -2,15 +2,9 @@
     <!-- launch ds4drv -->
     <node pkg="robot_launcher" type="ds4drv.sh" name="ds4drv"/>
 
-    <!-- You can adjust the pose of laser-rangefinder here. Order of values: x y z yaw pitch roll. -->
-  	<node pkg="tf" type="static_transform_publisher" name="laser_transform"
-  	 args="$(optenv laserpos 0 0 0 0 0 0) hokuyo_link urg_laser_link 100" />
+	<!-- launch laser -->
+	<include file="$(find robot_launcher)/launch/laser.launch"/>
 
-	<node pkg="urg_node" type="urg_node" name="urg_node" output="screen">
-	      <param name="serial_port" value="/dev/LRF"/>
-	      <param name="frame_id" value="urg_laser_link"/>
-	</node>
-    
     <!-- launch ypspur-coordinator -->
     <node pkg="robot_launcher" type="ypspur_coordinator.sh" name="ypspur_coordinator"
           args="$(find robot_launcher)/ypspur_params/yp-h29ki-3600-1.param"/>

@@ -49,13 +49,13 @@ void tableNumberCallback(const std_msgs::Int8::ConstPtr& msg)
     // 食堂用
     geometry_msgs::Pose p[7] = 
     {
-        makePose(0.358, 0.080, -0.322),// 待機場所
-        makePose(2.050, 4.865, 1.236),  // 受付場所
-        makePose(2.737, -3.631, -0.279), // table0
-        makePose(6.243, -1.183, -0.278), // table1(counter)
-        makePose(3.419, -1.824, 2.850), // table2
-        makePose(4.056, 0.980, -0.305), // table3
-        makePose(4.613, 3.041, -0.274), // table4
+        makePose(0.202, 0.344, 0.758),// 待機場所
+        makePose(-3.263, 4.091, 2.321),  // 受付場所
+        makePose(4.453, 0.381, 0.782), // table0
+        makePose(4.126, 4.488, 0.785), // table1(counter)
+        makePose(3.136, 1.794, 0.815), // table2
+        makePose(1.515, 4.115, 0.748), // table3
+        makePose(0.091, 5.587, 0.856), // table4
     };
     
     move_base_msgs::MoveBaseGoal goal;
