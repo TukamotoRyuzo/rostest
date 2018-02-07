@@ -1,11 +1,11 @@
 <launch>
   <!-- robot pose -->
-  <arg name="x" default="0"/>
-  <arg name="y" default="0"/>
-  <arg name="z" default="1.00"/>
-  <arg name="roll" default="0"/>
+  <arg name="x"     default="0"/>
+  <arg name="y"     default="0"/>
+  <arg name="z"     default="0"/>
+  <arg name="roll"  default="0"/>
   <arg name="pitch" default="0"/>
-  <arg name="yaw" default="0"/>
+  <arg name="yaw"   default="0"/>
 
   <!-- delete urdf model -->
   <node name="robot_delete_node" pkg="my_robo_description" type="robot_delete_node"/>

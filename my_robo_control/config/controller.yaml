@@ -25,8 +25,8 @@ diff_drive_controller:
   # Wheel separation and radius. These are both optional.
   # diff_drive_controller will attempt to read either one or both from the
   # URDF if not specified as a parameter
-  wheel_separation : 0.478
-  # wheel_separation : 0.425
+  # wheel_separation : 0.478
+  wheel_separation : 0.425
   wheel_radius : 0.085
  
   # Wheel separation and radius multipliers
@@ -52,8 +52,8 @@ diff_drive_controller:
   angular:
     z:
       has_velocity_limits    : true
-      max_velocity           : 1.56 # rad/s
-      min_velocity           : -1.56
+      max_velocity           : 0.78 # rad/s
+      min_velocity           : -0.78
       has_acceleration_limits: true
-      max_acceleration       : 1.56  # rad/s^2
-      min_acceleration       : -1.56
+      max_acceleration       : 0.78  # rad/s^2
+      min_acceleration       : -0.78

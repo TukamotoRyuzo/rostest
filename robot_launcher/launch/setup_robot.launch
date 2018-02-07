@@ -16,7 +16,7 @@
     
     <node pkg="joy" name="ps4" type="joy_node"/>
     <node pkg="ps4remocon" name="remocon" type="ds4_2017-yama2.py">
-      <remap from="cmd_vel" to="/diff_drive_controller/cmd_vel"/>
+          <remap from="cmd_vel" to="/diff_drive_controller/cmd_vel"/>
     </node>
 </launch>
 
