@@ -53,7 +53,7 @@ void tableNumberCallback(const std_msgs::Int8::ConstPtr& msg)
     // 食堂用
     geometry_msgs::Pose p[7] = 
     {
-        makePose(0.202, 0.344, 0.758),// 待機場所
+        makePose(-0.914, 1.475, 0.765),// 待機場所
         makePose(-3.263, 4.091, 2.321),  // 受付場所
         makePose(4.453, 0.381, 0.782), // table0
         makePose(4.126, 4.488, 0.785), // table1(counter)
@@ -80,8 +80,8 @@ void tableNumberCallback(const std_msgs::Int8::ConstPtr& msg)
 		goal.target_pose.pose.orientation.w);
 		
 	do {
-		//std_srvs::Empty empty_msg;
-		//g_clear_costmaps_service.call(empty_msg);
+		std_srvs::Empty empty_msg;
+		g_clear_costmaps_service.call(empty_msg);
 
         //tf::TransformListener tf(ros::Duration(10));
 		//costmap_2d::Costmap2DROS global_costmap("global_costmap", tf);

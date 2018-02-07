@@ -1,10 +1,10 @@
 scan_filter_chain:
 
-- name: angle
-  type: laser_filters/LaserScanAngularBoundsFilter
-  params:
-    lower_angle: -0.785
-    upper_angle: 0.785
+#- name: angle
+#  type: laser_filters/LaserScanAngularBoundsFilter
+#  params:
+#    lower_angle: -0.785
+#    upper_angle: 0.785
     
 #- name: range
 #  type: laser_filters/LaserScanRangeFilter
@@ -23,10 +23,10 @@ scan_filter_chain:
 #- name: interpolation
 #  type: laser_filters/InterpolationFilter
 
-#- name: shadows
-#  type: laser_filters/ScanShadowsFilter
-#  params:
-#    min_angle: 10
-#    max_angle: 170
-#    neighbors: 20
-#    window: 1
+- name: shadows
+  type: laser_filters/ScanShadowsFilter
+  params:
+    min_angle: 10
+    max_angle: 170
+    neighbors: 20
+    window: 1
