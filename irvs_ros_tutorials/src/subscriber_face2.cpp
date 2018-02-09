@@ -1,16 +1,21 @@
 #include "ros/ros.h"
+#include "std_msgs/Int8.h"
 #include "std_msgs/String.h"
 #include "pimouse_vision_control/test1.h"
-#include "std_msgs/Int8.h"
-#include <nav_msgs/Odometry.h>
-#include <sensor_msgs/LaserScan.h>
+
+#include <deque>
+#include <mutex>
+#include <thread>
 #include <string>
+#include <nav_msgs/Odometry.h>
+
 int x_point[5], y_point[5], x_length[5], y_length[5];
 int sample_count = 0;
 float angle = 0;
 int neck_angle, head_angle;
-
+std::deque<std::string> neck_rotate_msgs;
 ros::Publisher twist_pub;
+std::mutex mutex;
 
 // 顔位置の補正処理
 // 過去5回の顔位置の平均を取る
@@ -18,13 +23,7 @@ void msgCallback(const pimouse_vision_control::test1::ConstPtr& msg)
 {	
 	const int sample_times = 5;
 	const int difference = 15;
-/*
-	ROS_INFO("a = [%ld]", msg->a);
-	ROS_INFO("b = [%ld]", msg->b);
-	ROS_INFO("c = [%ld]", msg->c);
-	ROS_INFO("d = [%ld]", msg->d);
-	ROS_INFO("sample_count = %d\n", sample_count);
-	*/
+
 	x_point[sample_count] = msg->a;
 	y_point[sample_count] = msg->b;
 	x_length[sample_count] = msg->c;
@@ -49,12 +48,6 @@ void msgCallback(const pimouse_vision_control::test1::ConstPtr& msg)
 		x_length_sum = x_length_sum / sample_times;
 		y_length_sum = y_length_sum / sample_times;
 
-/*
-		printf("x_point_sum = %d\n", x_point_sum);
-		printf("y_point_sum = %d\n", y_point_sum);
-		printf("x_point_length = %d\n", x_length_sum);
-		printf("y_point_length = %d\n", y_length_sum);
-		*/
 		// 顔が大きく移動していないことを確認する処理
 		if (x_point_sum > x_point[0] - difference && x_point_sum < x_point[0] + difference &&
 		    y_point_sum > y_point[0] - difference && y_point_sum < y_point[0] + difference &&
@@ -85,7 +78,8 @@ void msgCallback(const pimouse_vision_control::test1::ConstPtr& msg)
 	}
 }
 
-void msgCallback2(const std_msgs::Int8::ConstPtr& msg)
+// 顔のある場所に首を動かすメッセージを生成する。
+std::string neckRotateMsgForFaceTracking()
 {
 	// 首の横の最大角度
 	const float max_angle = 30.0f;
@@ -100,54 +94,63 @@ void msgCallback2(const std_msgs::Int8::ConstPtr& msg)
 	else if (rotation_now > max_angle)
 		rotation_now = max_angle;
 	
-	
-	std::string msgs = "CMN";
-	char start[256] = "CMHD20";
-	char down[256] = "CMHD15";
-	char up[256] = "CMHD0";
-	char up2[256] = "CMHU5";
-	char front[256] = "CMNL0";
-	std_msgs::String String;
-			
+	std::string msg = "CMN";
 
     if (rotation_now < 0) 
     {
 	    rotation_now = -rotation_now;
-	    msgs += "L" + std::to_string((int)rotation_now);
+	    msg += "L" + std::to_string((int)rotation_now);
     }
     else if (rotation_now >= 0) 
     {
-	    msgs += "R" + std::to_string((int)rotation_now);		
+	    msg += "R" + std::to_string((int)rotation_now);		
 	}
 	
-	printf("%s\n", msgs.c_str());
-	String.data = msgs.c_str();
-	twist_pub.publish(String);
-	sleep(2);
+	return msg;
+}
+
+// お辞儀
+void msgCallback2(const std_msgs::Int8::ConstPtr& msg)
+{
+	std::unique_lock<std::mutex> lk(mutex);
+	neck_rotate_msgs.push_back(neckRotateMsgForFaceTracking());
+	neck_rotate_msgs.push_back("CMHD15");
+	neck_rotate_msgs.push_back("CMHU5");
+	neck_rotate_msgs.push_back("CMNL0");
+	neck_rotate_msgs.push_back("CMHD20");
+}
+
+// 顔追跡
+void msgCallback4(const std_msgs::Int8::ConstPtr& msg)
+{
+	std::unique_lock<std::mutex> lk(mutex);
+	neck_rotate_msgs.push_back(neckRotateMsgForFaceTracking());
+}
+
+// 首を回転させるために常に動いているworkerスレッド
+void neckRotateWorker()
+{   
+	std_msgs::String rot;
+	ros::Rate rate(1);
 	
-//	ROS_INFO("seep");
-//	ros::Duration(2).sleep();
-//	ROS_INFO("wake");
-
-	printf("%s\n", down);
-	String.data = down;
-	twist_pub.publish(String);
-	sleep(3);
-
-	printf("%s\n", up2);
-	String.data = up2;
-	twist_pub.publish(String);
-	sleep(2);
-
-	printf("%s\n", front);
-    String.data = front;
-	twist_pub.publish(String);
-    sleep(2);
-    
-    printf("%s\n", down);
-	String.data = down;
-	twist_pub.publish(String);
-	sleep(3);
+	while (ros::ok())
+	{
+		rate.sleep();
+		
+		// ロック
+		std::unique_lock<std::mutex> lk(mutex);
+		
+		while (neck_rotate_msgs.size())
+		{
+			rot.data = neck_rotate_msgs.front();
+			neck_rotate_msgs.pop_front();
+			//twist_pub.publish(rot);
+			ROS_INFO("rotate msgs: %s", rot.data.c_str());
+			lk.unlock();
+			ros::Duration(2).sleep();
+			lk.lock();
+		}
+	}
 }
 
 // 角度を更新し続ける
@@ -170,10 +173,12 @@ int main(int argc, char **argv)
 {
 	ros::init(argc,argv,"test1011_subscliber_node");
 	ros::NodeHandle nh;
-	ros::Subscriber ros_tutorial_sub = nh.subscribe("/test1",1, msgCallback);
-	ros::Subscriber ros_tutorial_sub2 = nh.subscribe("/ojigi",1, msgCallback2);
-	ros::Subscriber ros_tutorial_sub3 = nh.subscribe("/robotics_st",100, msgCallback3);
+	ros::Subscriber sub1 = nh.subscribe("/test1",1, msgCallback);
+	ros::Subscriber sub2 = nh.subscribe("/ojigi",1, msgCallback2);
+	ros::Subscriber sub3 = nh.subscribe("/robotics_st",100, msgCallback3);
+	ros::Subscriber sub4 = nh.subscribe("/track_face", 1, msgCallback4);
     twist_pub = nh.advertise<std_msgs::String>("/robotics_cmd", 1);
+    std::thread th(neckRotateWorker);
 	ros::spin();
 	return 0;
 }

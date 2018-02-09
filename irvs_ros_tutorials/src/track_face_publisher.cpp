@@ -26,13 +26,13 @@ int main(int argc, char **argv)
 	//nh.advertise<irvs_ros_tutorials::msgTutorial>("ros_tutorial_msg", 100);
 
 	ros::Publisher ros_tutorial_pub =
-	nh.advertise<std_msgs::Int8>("ojigi", 100);
+	nh.advertise<std_msgs::Int8>("track_face", 100);
 
 
 
 	//ループの周期を設定する。"10"は10Hzを表し、0.1秒間隔で繰り返される
 	// http://wiki.ros.org/roscpp/Overview/Time
-	ros::Rate loop_rate(0.1);
+	ros::Rate loop_rate(0.5);
 
 	//メッセージに使用する変数の宣言
 	int count = 0;

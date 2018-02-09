@@ -31,5 +31,5 @@ target_link_libraries(subscriber_face2 ${catkin_LIBRARIES})
 add_executable(sensor_subscriber src/sensor_subscriber.cpp)
 target_link_libraries(sensor_subscriber ${catkin_LIBRARIES})
 
-add_executable(ojigi_publisher src/ojigi_publisher.cpp)
-target_link_libraries(ojigi_publisher ${catkin_LIBRARIES})
+add_executable(track_face_publisher src/track_face_publisher.cpp)
+target_link_libraries(track_face_publisher ${catkin_LIBRARIES})
