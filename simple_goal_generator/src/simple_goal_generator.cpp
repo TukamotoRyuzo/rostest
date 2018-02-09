@@ -2,6 +2,7 @@
 #include <move_base_msgs/MoveBaseAction.h>
 #include <actionlib/client/simple_action_client.h>
 #include <std_msgs/Int8.h>
+#include <std_msgs/String.h>
 #include <std_srvs/Empty.h>
 #include <tf/tf.h>
 
@@ -24,6 +25,7 @@ typedef actionlib::SimpleActionClient<move_base_msgs::MoveBaseAction> MoveBaseCl
 MoveBaseClient* gac;
 ros::Publisher* gpub;
 ros::Publisher* gpub_ojigi;
+ros::Publisher* gpub_neck_down;
 ros::ServiceClient g_clear_costmaps_service;
 
 // msgをsubscribeした時に呼びだされるコールバック
@@ -90,8 +92,10 @@ void tableNumberCallback(const std_msgs::Int8::ConstPtr& msg)
 		//ccr.initialize("my_clear_costmap_recovery", &tf, &global_costmap, &local_costmap);
 		//ccr.runBehavior();
 		
-		
-		gac->sendGoal(goal);
+	std_msgs::String neck_down;
+	neck_down.data = "CMHD20";
+	gpub_neck_down->publish(neck_down);
+	gac->sendGoal(goal);
         // waitForResultしている間に他のサブスクライバが動けるか。
         // →動けない。プリエンプションさせるノードが別に必要。
         // →作った。
@@ -159,9 +163,11 @@ int main(int argc, char** argv)
     ros::Publisher pub = n.advertise<std_msgs::Int8>("android_communication", 10);
     ros::Publisher pub_ojigi = n.advertise<std_msgs::Int8>("ojigi", 10);
     ros::Subscriber sub = n.subscribe("android", 10, tableNumberCallback);
+    ros::Publisher pub_neck_down = n.advertise<std_msgs::Int8>("robotics_cmd", 10);
     g_clear_costmaps_service = n.serviceClient<std_srvs::Empty>("move_base/clear_costmaps");
     gpub = &pub;
     gpub_ojigi = &pub_ojigi;
+    gpub_neck_down = &pub_neck_down;
     ros::spin();
     
     return 0;
