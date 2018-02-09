@@ -2,6 +2,5 @@
   <!-- setup robot -->
   <node pkg="robot_launcher" type="talk.py" name="talker"/>
   <include file="$(find robot_launcher)/launch/setup_robot.launch"/>
-  <include file="$(find my_robo_control)/launch/control_real.launch"/>
   <include file="$(find robot_launcher)/launch/setup_face_tracking.launch"/>
 </launch>

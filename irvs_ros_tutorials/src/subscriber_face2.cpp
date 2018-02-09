@@ -142,10 +142,10 @@ void neckRotateWorker(ros::Publisher* neck_pub)
 		{
 			rot.data = neck_rotate_msgs.front();
 			neck_rotate_msgs.pop_front();
-			//neck_pub->publish(rot);
+			neck_pub->publish(rot);
 			ROS_INFO("rotate msgs: %s", rot.data.c_str());
 			lk.unlock();
-			ros::Duration(2).sleep();
+			ros::Duration(1).sleep();
 			lk.lock();
 		}
 	}

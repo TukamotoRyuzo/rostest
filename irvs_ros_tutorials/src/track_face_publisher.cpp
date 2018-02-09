@@ -32,7 +32,7 @@ int main(int argc, char **argv)
 
 	//ループの周期を設定する。"10"は10Hzを表し、0.1秒間隔で繰り返される
 	// http://wiki.ros.org/roscpp/Overview/Time
-	ros::Rate loop_rate(0.5);
+	ros::Rate loop_rate(1.0);
 
 	//メッセージに使用する変数の宣言
 	int count = 0;

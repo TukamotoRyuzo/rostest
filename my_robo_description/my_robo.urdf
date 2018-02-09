@@ -73,7 +73,7 @@
   <property name="hx" value="0"/>
   <property name="hy" value="0"/>
   <property name="hz" value="${nh/2.0+hh/2.0}"/>
-  <property name="hp" value="${M_PI/8.092}"/>
+  <property name="hp" value="${M_PI/9.0}"/>
   <!--<property name="hp" value="0"/>-->
   <property name="head_mass" value="4.0"/>
   <property name="head_ixx" value="${1.0/12.0*head_mass*(hw*hw+hh*hh)}"/>
