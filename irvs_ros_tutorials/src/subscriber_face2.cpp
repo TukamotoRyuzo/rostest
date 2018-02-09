@@ -7,14 +7,12 @@
 #include <mutex>
 #include <thread>
 #include <string>
-#include <nav_msgs/Odometry.h>
 
 int x_point[5], y_point[5], x_length[5], y_length[5];
 int sample_count = 0;
 float angle = 0;
 int neck_angle, head_angle;
 std::deque<std::string> neck_rotate_msgs;
-ros::Publisher twist_pub;
 std::mutex mutex;
 
 // 顔位置の補正処理
@@ -115,7 +113,7 @@ void msgCallback2(const std_msgs::Int8::ConstPtr& msg)
 	std::unique_lock<std::mutex> lk(mutex);
 	neck_rotate_msgs.push_back(neckRotateMsgForFaceTracking());
 	neck_rotate_msgs.push_back("CMHD15");
-	neck_rotate_msgs.push_back("CMHU5");
+	neck_rotate_msgs.push_back("CMHU0");
 	neck_rotate_msgs.push_back("CMNL0");
 	neck_rotate_msgs.push_back("CMHD20");
 }
@@ -128,7 +126,7 @@ void msgCallback4(const std_msgs::Int8::ConstPtr& msg)
 }
 
 // 首を回転させるために常に動いているworkerスレッド
-void neckRotateWorker()
+void neckRotateWorker(ros::Publisher* neck_pub)
 {   
 	std_msgs::String rot;
 	ros::Rate rate(1);
@@ -144,7 +142,7 @@ void neckRotateWorker()
 		{
 			rot.data = neck_rotate_msgs.front();
 			neck_rotate_msgs.pop_front();
-			//twist_pub.publish(rot);
+			//neck_pub->publish(rot);
 			ROS_INFO("rotate msgs: %s", rot.data.c_str());
 			lk.unlock();
 			ros::Duration(2).sleep();
@@ -177,8 +175,8 @@ int main(int argc, char **argv)
 	ros::Subscriber sub2 = nh.subscribe("/ojigi",1, msgCallback2);
 	ros::Subscriber sub3 = nh.subscribe("/robotics_st",100, msgCallback3);
 	ros::Subscriber sub4 = nh.subscribe("/track_face", 1, msgCallback4);
-    twist_pub = nh.advertise<std_msgs::String>("/robotics_cmd", 1);
-    std::thread th(neckRotateWorker);
+	ros::Publisher neck_pub = nh.advertise<std_msgs::String>("/robotics_cmd", 1);
+    std::thread th(neckRotateWorker, &neck_pub);
 	ros::spin();
 	return 0;
 }

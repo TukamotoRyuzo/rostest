@@ -24,12 +24,15 @@ ros_controlとyp-spurの連携に関してはネット上にあまり情報を�
 `roslaunch robot_launcher setup_robot.launch`  
 `roslaunch my_robo_control control_real.launch`  
 `roslaunch my_robo_control run.launch`  
-`roslaunch my_robo_2dnav move_base_B205.launch`  
+`roslaunch my_robo_2dnav move_base_food.launch`  
 `roslaunch simple_goal_generator goal_generator.launch`  
-`roslaunch robot_launcher setup_okada.launch`  
+`roslaunch robot_launcher setup_ojigi.launch`  
 
 * もしくはこれらを一括で起動  
-`roslaunch robot_launcher navigation_real.launch`  
+京都ポリテク用  
+`roslaunch robot_launcher kyoto_demo.launch`  
+近畿ポリテク用  
+`roslaunch robot_launcher kinki_demo.launch`  
 
 * テーブル番号の指定  
 `rostopic pub -1 /android std_msgs/Int8 [テーブル番号]`  
