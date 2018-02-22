@@ -1,0 +1,11 @@
+<launch>s
+   <!-- spawn robot -->
+   <include file="$(find my_robo_description)/launch/spawn_model.launch">
+     <arg name="x" value="0"/> 
+     <arg name="y" value="0"/>
+     <arg name="z" value="0.12"/>
+     <arg name="roll" value="0"/>
+     <arg name="pitch" value="0"/>
+     <arg name="yaw" value="0"/>
+   </include>
+</launch>

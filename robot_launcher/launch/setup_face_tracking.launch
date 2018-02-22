@@ -1,0 +1,13 @@
+<launch>
+    <include file="$(find pimouse_vision_control)/launch/vision_control.launch"/>
+    
+	<!-- ojigi -->
+	<node pkg="irvs_ros_tutorials" type="subscriber_face2" name="subscriber_face2" output="screen"/>
+	
+	<!-- sensor monitor -->
+	<node pkg="irvs_ros_tutorials" type="sensor_subscriber" name="sensor_subscriber" output="screen"/>
+	
+	<!-- track face -->
+	<node pkg="irvs_ros_tutorials" type="track_face_publisher" name="track_face_publisher" output="screen"/>
+</launch>
+

@@ -24,7 +24,7 @@
   <property name="foot_izz" value="${1.0/12.0*foot_mass*(fw*fw+fd*fd)}"/>
    
   <!-- tail (parent frame: foot_link) -->
-  <property name="td"  value="0.250"/>
+  <property name="td"  value="0.01"/>
   <property name="tw"  value="0.250"/>
   <property name="th"  value="0.010"/>
   <property name="tx"  value="${-fd/2-td/2}"/>
@@ -73,8 +73,8 @@
   <property name="hx" value="0"/>
   <property name="hy" value="0"/>
   <property name="hz" value="${nh/2.0+hh/2.0}"/>
-  <!--<property name="hp" value="${M_PI/6.0}"/>-->
-  <property name="hp" value="0"/>
+  <property name="hp" value="${M_PI/9.0}"/>
+  <!--<property name="hp" value="0"/>-->
   <property name="head_mass" value="4.0"/>
   <property name="head_ixx" value="${1.0/12.0*head_mass*(hw*hw+hh*hh)}"/>
   <property name="head_iyy" value="${1.0/12.0*head_mass*(hh*hh+hd*hd)}"/>
@@ -391,14 +391,14 @@
  
   <gazebo reference="base_link">
     <selfCollide>true</selfCollide>
-    <mu1 value="0.00" />
-    <mu2 value="0.00" />
+    <mu1 value="1.00" />
+    <mu2 value="1.00" />
   </gazebo>
   
   <gazebo reference="foot_link">
     <selfCollide>true</selfCollide>
-    <mu1 value="0.00" />
-    <mu2 value="0.00" />
+    <mu1 value="1.00" />
+    <mu2 value="1.00" />
   </gazebo>
   
   <gazebo reference="left_wheel_link">
@@ -432,7 +432,7 @@
     <mu2 value="0.8" />
   </gazebo>
 
-  <!-- hokuyo -->
+  <!-- hokuyo
   <gazebo reference="hokuyo_link">
     <sensor type="ray" name="head_hokuyo_sensor">
       <pose>0 0 0 0 0 0</pose>
@@ -454,10 +454,6 @@
         </range>
         <noise>
           <type>gaussian</type>
-          <!-- Noise parameters based on published spec for Hokuyo laser
-               achieving "+-30mm" accuracy at range < 10m.  A mean of 0.0m and
-               stddev of 0.01m will put 99.7% of samples within 0.03m of the true
-               reading. -->
           <mean>0.0</mean>
           <stddev>0.01</stddev>
         </noise>
@@ -468,5 +464,5 @@
       </plugin>
     </sensor>
   </gazebo>
- 
+ -->
 </robot>

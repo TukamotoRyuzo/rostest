@@ -6,9 +6,9 @@
     <param name="image_height" value="240" />
   </node>
 
-  <node pkg="mjpeg_server" name="mjpeg_server" type="mjpeg_server" >
+  <!--<node pkg="mjpeg_server" name="mjpeg_server" type="mjpeg_server" >
     <param name="port" value="10000" />
-  </node>
+  </node>-->
             
-  <node pkg="pimouse_vision_control" name="test_to_face" type="test_to_face.py" output="screen" />
+  <node pkg="pimouse_vision_control" name="test_to_face" type="face_publisher.py" output="screen" />
 </launch>

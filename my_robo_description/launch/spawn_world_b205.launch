@@ -1,0 +1,5 @@
+<launch>
+  <include file="$(find my_robo_description)/launch/spawn_world.launch">
+    <arg name="world" value="B205"/>
+  </include>
+</launch>

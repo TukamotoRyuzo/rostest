@@ -15,8 +15,10 @@ int MyRobo::open() const
     int ret = Spur_init();
 
     // set_wheel_vel, accelでタイヤ軸の角速度・各加速度を指定し、wheel_ang, velで角度指令・速度指令値を与える。
-    YP_set_wheel_vel(1.0, 1.0);
-    YP_set_wheel_accel(0.5, 0.5);
+    // YP_set_wheel_velはypspurのパラメータのMAX_W
+    // YP_set_wheel_accelはypspurのパラメータのMAX_ACC_W
+    YP_set_wheel_vel(32.68, 32.68);
+    YP_set_wheel_accel(65.36, 65.36);
     
     return ret;
 }
@@ -78,8 +80,8 @@ MyRobo::MyRobo()
 
 void MyRobo::read(ros::Time time, ros::Duration period)
 {
-    if (cmd_[0] || cmd_[1])
-    	ROS_INFO_STREAM("Commands for joints: " << cmd_[0] << ", " << -cmd_[1]);
+    //if (cmd_[0] || cmd_[1])
+    //	ROS_INFO_STREAM("Commands for joints: " << cmd_[0] << ", " << -cmd_[1]);
     	
     int ret = YP_wheel_vel(cmd_[0], -cmd_[1]);
     
@@ -131,8 +133,8 @@ void MyRobo::write(ros::Time time, ros::Duration period)
     YP_get_wheel_vel(&yp_vel[0], &yp_vel[1]);
     yp_vel[1] = -yp_vel[1];
     
-    if (yp_vel[0] || yp_vel[1])
-        ROS_INFO_STREAM("YPSpur vel: " << yp_vel[0] << ", " << -yp_vel[1]);
+    //if (yp_vel[0] || yp_vel[1])
+    //    ROS_INFO_STREAM("YPSpur vel: " << yp_vel[0] << ", " << -yp_vel[1]);
 
     for (unsigned int i = 0; i < 2; ++i)
     {
