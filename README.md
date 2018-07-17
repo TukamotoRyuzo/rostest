@@ -3,7 +3,11 @@
 navigationを実機とシミュレータで行えます。  
 yp-spurで動く差動二輪ロボットを想定し、ros_controlを用いてgazebo、実機を切り替えながら動作します。  
 ros_controlとyp-spurの連携に関してはネット上にあまり情報を見かけないので何かの参考になるかもしれません。  
- 
+
+## wiki
+https://github.com/TukamotoRyuzo/rostest/wiki
+
+## 起動
 * シミュレータでのnavigation  
 `roslaunch my_robo_description spawn_world_b205.launch`  
 `roslaunch my_robo_control control_base.launch`  
