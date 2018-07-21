@@ -5,6 +5,7 @@ yp-spurで動く差動二輪ロボットを想定し、ros_controlを用いてga
 ros_controlとyp-spurの連携に関してはネット上にあまり情報を見かけないので何かの参考になるかもしれません。  
 
 ## wiki
+navigationのパラメータ調整、ros_controlの設定方法について書きました。  
 https://github.com/TukamotoRyuzo/rostest/wiki
 
 ## 起動
